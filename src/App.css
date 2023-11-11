@@ -1,38 +1,80 @@
-.App {
-  text-align: center;
+body{
+  background-color: white;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.logo{
+  font-size: 40px;
+  padding: 10px;
+  color: black;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.header{
+  background-color: #4f9cff;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.upMenu{
+  background-color: #004ff7;
+  padding: 5px;
+}
+
+.menuColumns{
+  float: left;
+  background-color: #3f7bfa;
+  padding: 10px;
+  border: 2px;
+  margin-right: 4px;
+  border-color: black;
+  border-style: solid;
+}
+
+.columnsidebar{
+  float: left;
+  background-color: #47bfff;
+  width: 20%;
+  height: 100%;
+}
+
+.sidebarrow{
+  border: 3px solid gray;
+  padding: 10px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.columncontent{
+  float: left;
+  width: 80%;
+  height: 100%;
+}
+
+.button {
+  padding: 8px 12px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: medium;
+}
+
+.semiproductrow {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  margin: 5px;
+  padding: 5px;
+  border: 1px solid #ccc;
 }
 
-.App-link {
-  color: #61dafb;
+.semiproducttuple {
+  flex: 1;
+  padding: 3px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Stylowanie samego inputa */
+.custom-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+  font-size: 16px;
 }

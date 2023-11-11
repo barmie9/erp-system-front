@@ -1,6 +1,12 @@
 # Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Użyte biblioteki:
+## `axios` - Biblioteka ułatwijąca łączność z api aplikacji back-endowej. 
+Zalety:
+- Wbudowana obsługa błędów
+- Wbudowana obsługa plików Json.
+- `axios` używa Promises do obsługi asynchroniczności, co ułatwia korzystanie z mechanizmów takich jak `then()` i `catch()`.
+
 
 ## Available Scripts
 
@@ -68,3 +74,5 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
