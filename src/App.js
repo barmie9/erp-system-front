@@ -1,32 +1,44 @@
-import Register from './components/Register'
-import Login from './components/Login';
 
+import React from 'react';
 import './App.css';
-import { useState } from 'react';
-import Navigation from './components/Navigation';
-import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
-import Orders from './components/Orders';
+
+import {BrowserRouter as Router} from 'react-router-dom';
+
+// Układ Strony NR 1 
+import Header from './components/Header';
+import Menu from './components/Menu';
+import MenuLeft from './components/MenuLeft';
+import Footer from './components/Footer';
+import MainContent from './components/MainContent';
+
+
 
 function App() {
-  const [contentComponent,setContentComponent] = useState("");
+
+
+  const checkUserRole = () => {
+    return "USER";
+    // return "ADMIN";
+    // return null;
+  }
+
 
   return (
-    <Router>
-      <div>
-        <Navigation />
-        <Routes>
-          <Route path="/login" exact Component={Login}/>
-          <Route path="/register" Component={Register} />
-          <Route path="/orders" Component={Orders} />
-        </Routes>
-
+      <div className="app">
+      <Header />
+      <Router>
+        <Menu role={checkUserRole()} />
+        <div className="main-content">
+          <MenuLeft role={checkUserRole()}/>
+          <MainContent role={checkUserRole()}/>
+        </div>
+      </Router>
+      <Footer />
       </div>
-    </Router>
+
   );
+
 }
 
 export default App;
-
-
-
 

@@ -5,9 +5,10 @@ const apiUrl = 'http://localhost:8080/';
 
 class ApiDataService{
     getOrders(){
-        return axios.get(apiUrl + 'orders');
+        console.log("ORDERS: ", AuthenticationHeader());
+        return axios.get(apiUrl + 'orders', {headers: AuthenticationHeader() });
     }
-    
+
 }
 
 export default new ApiDataService();

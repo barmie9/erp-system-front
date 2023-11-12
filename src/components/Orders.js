@@ -13,6 +13,7 @@ function Orders() {
     
     async function fetchOrders(){
         const data = (await ApiDataService.getOrders()).data;
+        
         // console.log("BEFORE (DATA): ", data);
         setOrders(data);
         // console.log("AFTER (ORDERS): ", orders);
