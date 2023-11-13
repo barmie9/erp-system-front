@@ -3,7 +3,7 @@ import '../App.css'
 import { useNavigate } from 'react-router-dom';
 import AuthenticationService from "../services/AuthenticationService";
 
-function Login(){
+function Test(){
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -21,18 +21,20 @@ function Login(){
     const handleSubmit = async(event) => {
         event.preventDefault(); // Zatrzymania domyślnego zachowania przeglądarki. W kontekście formularza, domyślne zachowanie polega na przesłaniu danych formularza i przeładowaniu strony.
 
-        //Logowanie w aplikacji back-endowej
-        const data = await AuthenticationService.login(email,password);
+        // alert("PASSY: " +  email + ' ' + password);
 
-        // todo Do napisania weryfikacja danych
-        console.log("LOGIN DATA: ", data); 
+        //Logowanie w backendzie
+        const data = await AuthenticationService.login(email,password);
+        console.log("LOGIN DATA: ", data);
 
         setEmail('');
         setPassword('');
 
+        // history.replace('/'); // Zamienienie ścieżki na strone główno, bez możliwości powrotu  (alternatywnie push, gdy potrzebny jest powrot)
         navigate('/')
 
-        window.location.reload(); // Przeładowanie strony w celu załadowania nowych danych z pamięci przeglądarki (token/role)
+
+        window.location.reload();
     }
 
     return(
@@ -50,7 +52,7 @@ function Login(){
 
             </form>
         </div>
-    );
-};
+    )
+}
 
-export default Login;
+export default Test;

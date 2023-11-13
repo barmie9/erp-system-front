@@ -3,11 +3,12 @@ import Login from "./Login";
 import {Route, Routes} from 'react-router-dom';
 import Home from "./Home";
 import Register from "./Register";
+import Test from "./Test";
 
 function MainContent(props){
 
     return(
-        <div>
+        <div className="right-content">
             {props.role === 'ADMIN' && <AdminContent />}
             {props.role === 'USER' && <UserContent />}
             {props.role === null && <NoUserContent />}
@@ -24,7 +25,7 @@ function AdminContent(){
             <Route path="/magazin" Component={ () => {return(<h1>Stan Magazynowy</h1>)} } />
             <Route path="/semi-products" Component={ () => {return(<h1>Półprodukty</h1>)} } />
             <Route path="/users" Component={ () => {return(<h1>Użytkownicy</h1>)} } />
-            <Route path="/test" Component={ () => {return(<h1>Ekran do testów</h1>)} } />
+            <Route path="/test" Component={Test} />
         </Routes>
     )
 }
@@ -34,7 +35,7 @@ function UserContent(){
         <Routes>
             <Route path="/"  Component={Home} />
             <Route path="/tasks" Component={ () => {return(<h1>Twoje zadania</h1>)} } />
-            <Route path="/test" Component={ () => {return(<h1>Ekran do testów</h1>)} } />
+            <Route path="/test" Component={Test} />
         </Routes>
     )
 }
@@ -44,7 +45,7 @@ function NoUserContent(){
         <Routes>
             <Route path="/"  Component={Home} />
             <Route path="/login" Component={Login} />
-            <Route path="/test" Component={ () => {return(<h1>Ekran do testów</h1>)} } />
+            <Route path="/test" Component={Test } />
             <Route path="register" Component={Register} />
         </Routes>
     )

@@ -17,9 +17,10 @@ function App() {
 
 
   const checkUserRole = () => {
-    return "USER";
-    // return "ADMIN";
-    // return null;
+    const role = JSON.parse(localStorage.getItem('role'));
+    console.log("ROLE FROM App.js: ", role);
+    return role;
+
   }
 
 

@@ -38,6 +38,7 @@
   border-radius: 5px;
   cursor: pointer;
   font-size: medium;
+  margin: 5px;
 }
 
 .semiproductrow {
@@ -52,6 +53,14 @@
   padding: 3px;
 }
 
+/* Stylowanie kontenera inputa */
+.custom-input-container {
+  display: inline-block;
+  position: relative;
+  width: 90%;
+  margin: 4px;
+}
+
 /* Stylowanie samego inputa */
 .custom-input {
   width: 100%;
@@ -60,6 +69,11 @@
   border-radius: 4px;
   outline: none;
   font-size: 16px;
+}
+
+/* Stylowanie inputa, gdy jest w stanie focus */
+.custom-input:focus {
+  border-color: #007bff; /* Możesz dostosować kolor podczas focusowania */
 }
 
 /*   ------------     TEST WYGLADU NR 1  --------------- */
@@ -116,6 +130,8 @@ body {
 .main-content {
   display: flex;
   flex: 1;
+  /* flex-direction: row; */
+  /* justify-content: center; */
 }
 
 .menu-left {
@@ -124,6 +140,8 @@ body {
   color: white;
   padding: 1px;
   min-width: 220px;
+
+  /* height: 100%; */
 }
 
 .footer {
@@ -160,3 +178,21 @@ body {
 }
 
 /* --------------------------------------------------------*/
+
+.right-content{
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+}
+
+.form {
+  border: 2px solid #ddd; /* Kolor obramowania */
+  padding: 20px;
+  border-radius: 10px; /* Zakrąglenie rogów */
+  max-width: 400px; 
+  width: 100%;
+  /* box-sizing: border-box; */
+
+}
