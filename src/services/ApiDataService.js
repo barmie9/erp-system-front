@@ -9,6 +9,10 @@ class ApiDataService{
         return axios.get(apiUrl + 'orders', {headers: AuthenticationHeader() });
     }
 
+    getSpecializations(){
+        return axios.get(apiUrl + 'api/auth/specializations');
+    }
+
 }
 
 export default new ApiDataService();
