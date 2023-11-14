@@ -5,6 +5,7 @@ import Home from "./Home";
 import Register from "./Register";
 import Test from "./Test";
 import Users from "./Users";
+import Orders from "./Orders";
 
 function MainContent(props){
 
@@ -21,7 +22,7 @@ function AdminContent(){
     return(
         <Routes>
             <Route path="/"  Component={Home} />
-            <Route path="/orders" Component={ () => {return(<h1>Zlecenia</h1>)} } />
+            <Route path="/orders" Component={ Orders } />
             <Route path="/companies" Component={ () => {return(<h1>Lista Zleceniodawców</h1>)} } />
             <Route path="/magazin" Component={ () => {return(<h1>Stan Magazynowy</h1>)} } />
             <Route path="/semi-products" Component={ () => {return(<h1>Półprodukty</h1>)} } />

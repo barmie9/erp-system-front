@@ -41,6 +41,11 @@
   margin: 5px;
 }
 
+.button:hover{
+  background-color: #7BBBFF;
+  /* border: 1px solid #34495e; */
+}
+
 .semiproductrow {
   display: flex;
   margin: 5px;
@@ -55,15 +60,16 @@
 
 /* Stylowanie kontenera inputa */
 .custom-input-container {
-  display: inline-block;
+  /* display: inline-block; */
   position: relative;
   width: 90%;
+  min-width: 100px;
   margin: 4px;
 }
 
 /* Stylowanie samego inputa */
 .custom-input {
-  width: 100%;
+  width: 90%;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -132,6 +138,7 @@ body {
   flex: 1;
   /* flex-direction: row; */
   /* justify-content: center; */
+
 }
 
 .menu-left {
@@ -194,13 +201,17 @@ body {
   max-width: 400px; 
   width: 100%;
   /* box-sizing: border-box; */
+  flex-direction: column;
 
 }
 
 .content{
+  /* height: 700px; */
+  /* height:  80vh; */
   height: 100%;
   width: 100%;
   margin: 10px;
+  /* overflow-y: scroll; */
 }
 
 
@@ -249,3 +260,12 @@ body {
 .tab-row-body:nth-child(odd) {
   background-color: #F0F0F0;
 }
+
+/*------------------------*/
+.horizontal-orientation{
+  display: flex;
+  flex-direction: row;
+  align-items: center; /* Centrowanie w orientacji poziomej */
+  justify-content: space-between;
+}
+/*------------------------*/

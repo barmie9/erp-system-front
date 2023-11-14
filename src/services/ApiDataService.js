@@ -7,7 +7,7 @@ const errorMessage = 'ERROR_API_DATA_ERP_SYSTEM: ';
 class ApiDataService{
     getOrders(){
         try{
-            return axios.get(apiUrl + 'orders', {headers: AuthenticationHeader() });
+            return axios.get(apiUrl + 'api/orders', {headers: AuthenticationHeader() });
         }
         catch(error){
             console.log(errorMessage + "Błąd pobierania zleceń: " + error);
@@ -23,7 +23,6 @@ class ApiDataService{
             console.log(errorMessage + "Błąd pobierania stanowisk: " + error);
             console.error(errorMessage + "Błąd pobierania stanowisk: " + error);           
         }
-        
     }
 
     getUsers(){
@@ -34,8 +33,18 @@ class ApiDataService{
             console.log(errorMessage + "Błąd pobierania użytkowników: " + error);
             console.error(errorMessage + "Błąd pobierania użytkowników: " + error);
         }
-        
     }
+
+    getCompanyOrder(){
+        return axios.get(apiUrl + 'api/companyorders',{headers: AuthenticationHeader() });
+    }
+
+    addOrder(name,quantity,createDate,expectDate,realDate,orderManagerId,companyOrderId){
+        return axios.post(apiUrl + 'api/addorder',{
+            name,quantity,createDate,expectDate,realDate,orderManagerId,companyOrderId
+        },{headers: AuthenticationHeader() })
+    }
+
 
 }
 

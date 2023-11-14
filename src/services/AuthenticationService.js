@@ -15,11 +15,13 @@ class AuthenticationService{
             if(response.data && response.data.token){
                 const  token = JSON.stringify(response.data.token);
                 const role = JSON.stringify(response.data.role);
+                const userId = JSON.stringify(response.data.userId);
 
-                console.log("TOKEN/ROLE: ", token + '/' +role);
+                console.log("TOKEN/ROLE/userId: ", token + '/' + role + '/' + userId);
 
                 localStorage.setItem('token',token);
                 localStorage.setItem('role',role);
+                localStorage.setItem('userId',userId);
             }
         })
         .catch(err => console.log(err));
@@ -29,7 +31,6 @@ class AuthenticationService{
         localStorage.removeItem('token');
         localStorage.setItem("role",null);
 
-        // console.log("LOGOUT !! RELOAD");
         window.location.reload();
     }
 
