@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 
 //npm install react-datepicker --save
 import DatePicker from 'react-datepicker';
@@ -7,8 +8,10 @@ import 'react-datepicker/dist/react-datepicker.css';
 //npm install react-select
 import Select from "react-select";
 import ApiDataService from "../services/ApiDataService";
+import AuthenticationService from "../services/AuthenticationService";
 
 function Register() {
+    const navigate = useNavigate();
 
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
@@ -39,20 +42,25 @@ function Register() {
         return [year, month, day].join('-');
     }
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault(); // Zatrzymania domyślnego zachowania przeglądarki. W kontekście formularza, domyślne zachowanie polega na przesłaniu danych formularza i przeładowaniu strony.
         
-        // Todo Do napisania POST do back-endu
-        console.log("DATA: \n" , 
-        formatDate() + '\n',
-        email + '\n',
-        password + '\n',
-        name + '\n',
-        surname + '\n',
-        phonNum + '\n',
-        pesel + '\n',
-        specId,
-        );
+        const data = await AuthenticationService.register(name,surname,email,password,phonNum,pesel,formatDate(),specId);
+
+        // Todo Do napisania Weryfikacja odpowiedzi 'data'
+        setName('');
+        setSurname('');
+        setEmail('');
+        setPassword('');
+        setPhonNum('');
+        setPesel('');
+        setDatePicker(null);
+        setSpecId(null);
+        setSpecStr(null);
+
+        navigate('/');
+
+        window.location.reload();
     }
 
     const handleDataPicker = (date) => {
@@ -93,7 +101,7 @@ function Register() {
                     <input  placeholder="Nazwisko" className="custom-input" onChange={ (e) => {setSurname(e.target.value)} } value={surname} type="text" />
                 </div>
                 <div className="custom-input-container">
-                    <input  placeholder="Email" className="custom-input" onChange={ (e) => {setEmail(e.target.value)} } value={email} type="email" name="email"/>
+                    <input  placeholder="Email" className="custom-input" onChange={ (e) => {setEmail(e.target.value)} } value={email} type="email" /*name="email"*/ />
                 </div>
                 <div className="custom-input-container">
                     <input placeholder="Hasło" className="custom-input" onChange={ (e) => {setPassword(e.target.value)} } value={password} type="password" name="password" />

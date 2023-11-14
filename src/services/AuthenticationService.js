@@ -38,8 +38,12 @@ class AuthenticationService{
             name,surname,email,password,phoneNum,pesel,dateOfBirthday,specId
         })
         .then(response => {
-            if(response.data.token){
-                localStorage.setItem('token',JSON.stringify(response.data));
+            if(response.data.token && response.data.role){
+                const  token = JSON.stringify(response.data.token);
+                const role = JSON.stringify(response.data.role);
+
+                localStorage.setItem('token',token);
+                localStorage.setItem('role',role);
             }
             return response.data;
         });
