@@ -4,6 +4,7 @@ import {Route, Routes} from 'react-router-dom';
 import Home from "./Home";
 import Register from "./Register";
 import Test from "./Test";
+import Users from "./Users";
 
 function MainContent(props){
 
@@ -24,7 +25,7 @@ function AdminContent(){
             <Route path="/companies" Component={ () => {return(<h1>Lista Zleceniodawców</h1>)} } />
             <Route path="/magazin" Component={ () => {return(<h1>Stan Magazynowy</h1>)} } />
             <Route path="/semi-products" Component={ () => {return(<h1>Półprodukty</h1>)} } />
-            <Route path="/users" Component={ () => {return(<h1>Użytkownicy</h1>)} } />
+            <Route path="/users" Component={ Users } />
             <Route path="/test" Component={Test} />
         </Routes>
     )

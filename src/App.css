@@ -196,3 +196,56 @@ body {
   /* box-sizing: border-box; */
 
 }
+
+.content{
+  height: 100%;
+  width: 100%;
+  margin: 10px;
+}
+
+
+/* ------- DLA TABELI ------- */
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.tab-row-header {
+  border: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+
+.tab-row-body {
+  border: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;  
+}
+
+.tab-row-body:hover {
+  cursor: pointer;
+  background-color: white;
+  
+  border: 1px solid #0004E7;
+  border-bottom: 2px solid #0004E7;
+  border-top: 2px solid #0004E7;
+}
+
+.tab-tuple-td {
+  padding: 10px;
+  text-align: left;
+}
+
+/* Style dla nagłówków tabeli */
+.tab-row-header th {
+  background-color: #00A4D4;
+  color: white;
+  padding: 10px;
+  text-align: left;
+  cursor: default;
+}
+
+/* Zmień kolor tekstu dla nieparzystych wierszy (opcjonalnie) */
+.tab-row-body:nth-child(odd) {
+  background-color: #F0F0F0;
+}
