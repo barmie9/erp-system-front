@@ -9,34 +9,57 @@ import {formatDate,formatDateToStr} from '../services/DataConverter';
 
 function OrderDetails (){
     const [refreshGantt, setRefreashGantt] = useState(false);
+    const [refreshEditOrder, setRefreshEditOrder] = useState(false);
+
+    // Dane otrzymane z rodzica (Aktualnie wybrane zlecenie)
+    const { state } = useLocation();
+    const [order, setOrder] = useState([]);
 
     const [tasks, setTasks] = useState([]);
     const [isTasksLoaded, setTasksLoaded] = useState(false);
-    const [datePicker,setDatePicker] = useState(null);
-    const { state } = useLocation();
 
     // -- Do selecta listy pracownikow (dodaj zadanie)
     const [employeeId, setEmployeeId] = useState(null);
     const [employeeStr, setEmployeeStr] = useState("");
     const [employeeOptions, setEmployeeOptions] = useState([]);
 
+    // -- Do dodania nowego zadania dla zlecenia
     const [newTaskName, setNewTaskName] = useState("");
     const [newTaskDescr, setNewTaskDescr] = useState("");
     const [newTaskDateStart,setNewTaskDateStart] = useState(null);
     const [newTaskDateEnd,setNewTaskDateEnd] = useState(null);
 
+    // -- Do edycji aktualnego zlecenia
+    const [editOrderName, setEditOrderName] = useState("");
+    const [editOrderQuantity, setEditOrderQuantity] = useState("");
+    const [editOrderDate, setEditOrderDate] = useState(null);
+    // const [datePicker,setDatePicker] = useState(null);
+    // -- Select do edycji:
+    const [companyOptions,setCompanyOptions] = useState([]);
+    const [companyStr, setCompanyStr] = useState("");
+    const [companyId, setCompanyId] = useState(null);
+
     const today = new Date();
     const maxDate = new Date(today.getFullYear() + 20, 11, 31); // 20 lat do przodu
 
+    // Odświeżenie Wykresu Gantta po dodaniu nowego zadania
     useEffect( () => {
         fetchTasks().then( () => { 
           setTasksLoaded(true);
         });
       },[refreshGantt]);
 
+    // Jednorazowe załadowanie danych przy wywołaniu komponentu
     useEffect ( () => {
         fetchEmployee();
-      },[])
+        fetchcCompanyOrder();
+        // loadDataFromParent();
+      },[]);
+
+    // Odświeżenie edycji Zlecenia
+    useEffect ( () => {
+        fetchOrder();
+    },[refreshEditOrder]);
    
       const fetchTasks = async () => {
         const response = await ApiDataService.getTasksByOrderId(state.id);
@@ -48,6 +71,20 @@ function OrderDetails (){
         const userOptions = await convertUsers(response.data)
         setEmployeeOptions(userOptions);
       }
+      const fetchcCompanyOrder = async () => {
+        const response = await ApiDataService.getCompanyOrder(); 
+        var options = [] ;
+        response.data.map(element => {
+            options.push({label: element.name, value: element.id});
+        });
+        setCompanyOptions(options);
+        };
+
+    const fetchOrder = async () => {
+        const response = await ApiDataService.getOrderById(state.id);
+        setOrder(response.data);
+    }
+
 
       const convertUsers = async (users) => {
         return users.map(
@@ -96,10 +133,26 @@ function OrderDetails (){
         setRefreashGantt(!refreshGantt);
     }
 
+    const handleEditOrder = async () => {
+
+        // todo Do sprawdzenia odpowiedz z serwera
+        const response = await ApiDataService.editOrder(order.id,editOrderName,editOrderQuantity,companyId,formatDateToStr(editOrderDate));
+
+        // Czyszczenie inputów 
+        setEditOrderName("");
+        setEditOrderQuantity("");
+        setCompanyId(null);
+        setCompanyStr("");
+        setEditOrderDate(null);
+
+        // Odświeżenie komponentów korzystającyhc ze zlecenia
+        setRefreshEditOrder(!refreshEditOrder);
+    }
+
     return(
         <div className="content">
 
-            <h1> Zlecenie: {state.name}</h1>
+            <h1> Zlecenie: {order.name}</h1>
 
             <hr className="line" />
 
@@ -108,34 +161,40 @@ function OrderDetails (){
                 <div className="horizontal-orientation">
                     <div style={{minWidth: "150px"}}>Nazwa: </div>
                     <div className="custom-input-container">
-                        <input placeholder={state.name}  className="custom-input"/>
+                        <input placeholder={order.name}  className="custom-input" type="text" onChange={ (e) => {setEditOrderName(e.target.value)} } value={editOrderName} />
                     </div>
                 </div>
                 <div className="horizontal-orientation">
                     <div style={{minWidth: "150px"}}>Ilość: </div>
                     <div className="custom-input-container">
-                        <input placeholder={state.quantity} className="custom-input"/>
+                        <input placeholder={order.quantity} className="custom-input" type="number" onChange={ (e) => {setEditOrderQuantity(e.target.value)} } value={editOrderQuantity} />
                     </div>
                 </div>
-                <div className="horizontal-orientation">
-                    <div style={{minWidth: "150px"}}>Manager: </div>
-                    <div className="custom-input-container">
-                        <input placeholder={state.orderManager} className="custom-input"/>
-                    </div>
-                </div>
+
                 <div className="horizontal-orientation">
                     <div style={{minWidth: "150px"}}>Zleceniodawca: </div>
                     <div className="custom-input-container">
-                        <input placeholder={state.companyOrder} className="custom-input"/>
+                        <Select 
+                            value={companyStr}
+                            onChange={ (selectedOption) => {
+                                setCompanyStr(selectedOption);
+                                setCompanyId(selectedOption.value);
+                            }}
+                            options={companyOptions}
+                            isSearchable
+                            placeholder={order.companyOrder}
+                        />
                     </div>
                 </div>
+
+
                 <div className="horizontal-orientation">
                     <div style={{minWidth: "150px"}}>Data zakończenia: </div>
                     <div className="custom-input-container">
                         <DatePicker 
-                            onChange={ (date) => {setDatePicker(date)} } 
-                            placeholderText={state.expectDate} 
-                            selected={datePicker} 
+                            onChange={ (date) => {setEditOrderDate(date)} } 
+                            placeholderText={order.expectDate} 
+                            selected={editOrderDate} 
                             dateFormat="yyyy-MM-dd"
                             showYearDropdown
                             yearDropdownItemNumber={20} // Określa ilość lat wyświetlanych na liście rozwijanej
@@ -148,7 +207,7 @@ function OrderDetails (){
                     </div>
                 </div>
 
-                <button style={{ alignSelf: "end"}} className="button">Edytuj</button>
+                <button style={{ alignSelf: "end"}} className="button" onClick={handleEditOrder}>Edytuj</button>
             </div>
             <hr className="line" />
 

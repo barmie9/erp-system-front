@@ -54,6 +54,16 @@ class ApiDataService{
         {headers: AuthenticationHeader() });
     }
 
+    editOrder(id,name,quantity,companyOrderId,expectDate){
+        return axios.post(apiUrl + 'api/order-edit',{id,name,quantity,companyOrderId,expectDate},
+        {headers: AuthenticationHeader() });
+    }
+
+    getOrderById(id){
+        return axios.post(apiUrl + 'api/order', {id},
+        {headers: AuthenticationHeader() });
+    }
+
 
 }
 
