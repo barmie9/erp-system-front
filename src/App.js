@@ -2,6 +2,8 @@
 import React from 'react';
 import './App.css';
 
+import {getRoleFromMemory} from './services/MemoryService'
+
 import {BrowserRouter as Router} from 'react-router-dom';
 
 // Układ Strony NR 1 
@@ -17,9 +19,9 @@ function App() {
 
 
   const checkUserRole = () => {
-    const role = JSON.parse(localStorage.getItem('role'));
-    console.log("ROLE FROM App.js: ", role);
-    return role;
+    // const role = JSON.parse(localStorage.getItem('role'));
+    // console.log("ROLE FROM App.js: ", role);
+    return getRoleFromMemory();
 
   }
 

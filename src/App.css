@@ -219,7 +219,7 @@ body {
 
 .tab-row-body:hover {
   cursor: pointer;
-  background-color: white;
+  /* background-color: white; */
   
   border: 1px solid #0004E7;
   border-bottom: 2px solid #0004E7;
@@ -240,10 +240,18 @@ body {
   cursor: default;
 }
 
-/* Zmień kolor tekstu dla nieparzystych wierszy (opcjonalnie) */
-.tab-row-body:nth-child(odd) {
-  background-color: #F0F0F0;
+.high-progress {
+  background-color: #AFFFAE; /* Kolor dla wysokiego postępu */
 }
+
+.low-progress {
+  background-color: #FFB9AE; /* Kolor dla niskiego postępu */
+}
+
+/* Zmień kolor tekstu dla nieparzystych wierszy (opcjonalnie) */
+/* .tab-row-body:nth-child(odd) {
+  background-color: #F0F0F0;
+} */
 
 /*------------------------*/
 .horizontal-orientation{
@@ -281,3 +289,5 @@ body {
   overflow-x: auto;
   border: 1px solid #ccc;
 }
+
+

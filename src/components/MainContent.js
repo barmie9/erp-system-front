@@ -7,6 +7,7 @@ import Test from "./Test";
 import Users from "./Users";
 import Orders from "./Orders";
 import OrderDetails from "./OrderDetails";
+import UserTasks from "./UserTasks";
 
 function MainContent(props){
 
@@ -38,7 +39,7 @@ function UserContent(){
     return(
         <Routes>
             <Route path="/"  Component={Home} />
-            <Route path="/tasks" Component={ () => {return(<h1>Twoje zadania</h1>)} } />
+            <Route path="/tasks" Component={ UserTasks} />
             <Route path="/test" Component={Test} />
         </Routes>
     )

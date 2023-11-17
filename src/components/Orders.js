@@ -81,7 +81,7 @@ function Orders() {
 
 const AddOrder = ({ refreshParent }) => {
     const [orderName, setOrderName] = useState('');
-    const [quantity,setQuantity] = useState(0);
+    const [quantity,setQuantity] = useState('');
     const [datePicker, setDatePicker] = useState(null);
     const [companyOptions, setCompanyOptions] = useState([]);
     const [companyStr, setCompanyStr] = useState('');
@@ -119,7 +119,7 @@ const AddOrder = ({ refreshParent }) => {
 
         const response = await ApiDataService.addOrder(orderName,quantity,formatDateToStr(today),formatDateToStr(datePicker),formatDateToStr(datePicker),userId,companyId);
         setOrderName('');
-        setQuantity(0);
+        setQuantity('');
         setDatePicker(null);
         setCompanyStr('');
         refreshParent();

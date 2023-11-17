@@ -64,6 +64,10 @@ class ApiDataService{
         {headers: AuthenticationHeader() });
     }
 
+    getTasksByUserId(userId){
+        return axios.post(apiUrl + 'api/user-tasks', {userId},
+        {headers: AuthenticationHeader() });
+    }
 
 }
 

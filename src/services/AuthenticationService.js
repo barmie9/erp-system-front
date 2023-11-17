@@ -29,6 +29,7 @@ class AuthenticationService{
 
     logout(){
         localStorage.removeItem('token');
+        localStorage.removeItem('userId');
         localStorage.setItem("role",null);
 
         window.location.reload();
