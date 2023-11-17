@@ -2,10 +2,13 @@ import React from "react";
 import ApiDataService from "../services/ApiDataService";
 import DatePicker from 'react-datepicker';
 import Select from "react-select";
+import {formatDateToStr} from "../services/DataConverter";
 
 //npm install date-fns
 // Potrzebny do ustawienia polskiego w DataPicker (Nie działa)
 import pl from 'date-fns/locale/pl'; // Importuj lokalizację dla polskiego języka
+
+import { Link, useNavigate } from "react-router-dom";
 
 
 import { useEffect, useState } from "react";
@@ -13,6 +16,8 @@ import { useEffect, useState } from "react";
 function Orders() {
     const [orders, setOrders] = useState([]);
     const [refresh, setRefresh] = useState(false);
+
+    const navigate = useNavigate();
 
     useEffect( () => {
         getOrders();
@@ -27,11 +32,20 @@ function Orders() {
         setRefresh(!refresh);
       };
 
+    const handleOrderDetails = (order) => {
+        console.log("HANDLE ORDER DETAILS");
+        navigate("/orders/details", { state: order } );    
+    }
+
+      const dataToPass = { name: 'John Doe', age: 25 };
+
         return(
             <div className="content">
                 <h1>Zlecenia</h1>
                 <h2>Dodaj zlecenie:</h2>
                 <AddOrder refreshParent={handleRefresh} />
+
+                {/* <Link to={{ pathname: '/orderdetails', state: dataToPass }}>Go to Other Component</Link> */}
 
                 <h2>Lista zleceń:</h2>
                 <div className="custom-input-container"><input placeholder="Filtruj po nazwisku" className="custom-input"/></div>
@@ -49,7 +63,7 @@ function Orders() {
                     </thead>
                     <tbody>
                     {orders.map(order => (
-                        <tr key={order.id} className='tab-row-body' >
+                        <tr key={order.id} className='tab-row-body' onClick={ () => {handleOrderDetails(order)} }>
                         <td className="tab-tuple-td">{order.name}</td>
                         <td className="tab-tuple-td">{order.quantity}</td>
                         <td className="tab-tuple-td">{order.orderManager}</td>
@@ -101,22 +115,9 @@ const AddOrder = ({ refreshParent }) => {
     const today = new Date();
     const maxDate = new Date(today.getFullYear() + 20, 11, 31); // 20 lat do przodu
 
-    function formatDate(date) {
-        var month = '' + (date.getMonth() + 1);
-        var day = '' + date.getDate();
-        var year = date.getFullYear();
-
-    if (month.length < 2) 
-        month = '0' + month;
-    if (day.length < 2) 
-        day = '0' + day;
-
-    return [year, month, day].join('-');
-}
-
     const handleAddOrder = async() => {
 
-        const response = await ApiDataService.addOrder(orderName,quantity,formatDate(today),formatDate(datePicker),formatDate(datePicker),userId,companyId);
+        const response = await ApiDataService.addOrder(orderName,quantity,formatDateToStr(today),formatDateToStr(datePicker),formatDateToStr(datePicker),userId,companyId);
         setOrderName('');
         setQuantity(0);
         setDatePicker(null);
@@ -136,6 +137,7 @@ const AddOrder = ({ refreshParent }) => {
 
             <div className="custom-input-container">
                 <Select
+                    // styles={{padding: "0px"}}
                     value={companyStr}
                     onChange={setCompany}
                     options={companyOptions}

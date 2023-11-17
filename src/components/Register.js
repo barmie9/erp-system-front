@@ -9,6 +9,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import Select from "react-select";
 import ApiDataService from "../services/ApiDataService";
 import AuthenticationService from "../services/AuthenticationService";
+import { formatDateToStr } from "../services/DataConverter";
 
 function Register() {
     const navigate = useNavigate();
@@ -29,23 +30,11 @@ function Register() {
          fetchSpecializations();
     },[]);
 
-    function formatDate() {
-            var month = '' + (datePicker.getMonth() + 1);
-            var day = '' + datePicker.getDate();
-            var year = datePicker.getFullYear();
-    
-        if (month.length < 2) 
-            month = '0' + month;
-        if (day.length < 2) 
-            day = '0' + day;
-    
-        return [year, month, day].join('-');
-    }
 
     const handleSubmit = async (event) => {
         event.preventDefault(); // Zatrzymania domyślnego zachowania przeglądarki. W kontekście formularza, domyślne zachowanie polega na przesłaniu danych formularza i przeładowaniu strony.
         
-        const data = await AuthenticationService.register(name,surname,email,password,phonNum,pesel,formatDate(),specId);
+        const data = await AuthenticationService.register(name,surname,email,password,phonNum,pesel,formatDateToStr(datePicker),specId);
 
         // Todo Do napisania Weryfikacja odpowiedzi 'data'
         setName('');

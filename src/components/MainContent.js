@@ -6,6 +6,7 @@ import Register from "./Register";
 import Test from "./Test";
 import Users from "./Users";
 import Orders from "./Orders";
+import OrderDetails from "./OrderDetails";
 
 function MainContent(props){
 
@@ -28,6 +29,7 @@ function AdminContent(){
             <Route path="/semi-products" Component={ () => {return(<h1>Półprodukty</h1>)} } />
             <Route path="/users" Component={ Users } />
             <Route path="/test" Component={Test} />
+            <Route path="/orders/details" Component={OrderDetails} />
         </Routes>
     )
 }

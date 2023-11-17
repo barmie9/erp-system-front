@@ -42,7 +42,11 @@ class ApiDataService{
     addOrder(name,quantity,createDate,expectDate,realDate,orderManagerId,companyOrderId){
         return axios.post(apiUrl + 'api/addorder',{
             name,quantity,createDate,expectDate,realDate,orderManagerId,companyOrderId
-        },{headers: AuthenticationHeader() })
+        },{headers: AuthenticationHeader() });
+    }
+
+    getTasksByOrderId(orderId){
+        return axios.post(apiUrl + 'api/tasks',{orderId},{headers: AuthenticationHeader() });
     }
 
 

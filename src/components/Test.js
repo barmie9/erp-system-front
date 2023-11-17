@@ -1,56 +1,53 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import '../App.css'
 import { useNavigate } from 'react-router-dom';
 import AuthenticationService from "../services/AuthenticationService";
+import {formatDate} from '../services/DataConverter';
+
+import { Gantt, Task, EventOption, StylingOption, ViewMode, DisplayOption } from 'gantt-task-react';
+import "gantt-task-react/dist/index.css";
+import ApiDataService from "../services/ApiDataService";
 
 function Test(){
+  const [tasks, setTasks] = useState([]);
+  const [isTasksLoaded, setTasksLoaded] = useState(false);
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+  useEffect( () => {
+    fetchTasks().then( () => { 
+      setTasksLoaded(true);
+    });
+  },[])
 
-    const navigate = useNavigate();
+    // Dodatkowy useEffect, który reaguje na zmianę danych
+    useEffect(() => {
+      console.log('TASKS DB: ', tasks);
+    }, [tasks]);
 
-    const handleEmail = (event) => {
-        setEmail(event.target.value);
-    }
+  const fetchTasks = async () => {
 
-    const handlePassword = (event) => {
-        setPassword(event.target.value);
-    }
+    const response = await ApiDataService.getTasksByOrderId(1);
+    const convertData = await convertDates(response.data);
+    
+    setTasks(convertData);
+  }
 
-    const handleSubmit = async(event) => {
-        event.preventDefault(); // Zatrzymania domyślnego zachowania przeglądarki. W kontekście formularza, domyślne zachowanie polega na przesłaniu danych formularza i przeładowaniu strony.
-
-        // alert("PASSY: " +  email + ' ' + password);
-
-        //Logowanie w backendzie
-        const data = await AuthenticationService.login(email,password);
-        console.log("LOGIN DATA: ", data);
-
-        setEmail('');
-        setPassword('');
-
-        // history.replace('/'); // Zamienienie ścieżki na strone główno, bez możliwości powrotu  (alternatywnie push, gdy potrzebny jest powrot)
-        navigate('/')
-
-
-        window.location.reload();
-    }
+  const convertDates = async (data) => {
+    const convDate = data.map((task) => {
+      return {
+        ...task,
+        start: formatDate(task.start),
+        end: formatDate(task.end),
+      };
+    });
+    return convDate;
+  }
 
     return(
-        <div id="loginform" className="form">
-            <h1>Zaloguj się !</h1>
-            <form>
-                <div className="custom-input-container">
-                    <input  placeholder="Email" className="custom-input" onChange={handleEmail} value={email} type="text" name="email"/>
-                </div>
-                <div className="custom-input-container">
-                    <input placeholder="Hasło" className="custom-input" onChange={handlePassword} value={password} type="password" name="password" />
-                </div>
-                    
-                <div><button className="button" type="submit" onClick={handleSubmit}>Zaloguj</button></div>
 
-            </form>
+        // Do poprawy statyczna szerokość
+        <div className="scroll-view"> 
+            {/* {isTasksLoaded ? <Gantt tasks={tasks} locale="pl" /> : <p>Loading...</p>} */}
+            {/* <Gantt /> */}
         </div>
     )
 }
