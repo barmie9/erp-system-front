@@ -8,46 +8,53 @@ import { Gantt, Task, EventOption, StylingOption, ViewMode, DisplayOption } from
 import "gantt-task-react/dist/index.css";
 import ApiDataService from "../services/ApiDataService";
 
+//npm install react-circular-progressbar
+import 'react-circular-progressbar/dist/styles.css';
+import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
+
 function Test(){
-  const [tasks, setTasks] = useState([]);
-  const [isTasksLoaded, setTasksLoaded] = useState(false);
+  const [percentageProg, setPercentageProg] = useState(10);
 
-  useEffect( () => {
-    fetchTasks().then( () => { 
-      setTasksLoaded(true);
-    });
-  },[])
+  function getRgbaColor (percent){
+     let r=0;
+     let g=0;
+     let b=0;
+     let rgbColor = "";
+    if(percent <= 50){
+      r = 255;
+      g = 5.1 * percent;
+    }
+    else{
+      r = 5.1 * (100-percent);
+      g =255;
+    }
 
-    // Dodatkowy useEffect, który reaguje na zmianę danych
-    useEffect(() => {
-      console.log('TASKS DB: ', tasks);
-    }, [tasks]);
+    rgbColor = `rgba(${r.toString()}, ${g.toString()}, ${b.toString()}, 0.5)`;
 
-  const fetchTasks = async () => {
-
-    const response = await ApiDataService.getTasksByOrderId(1);
-    const convertData = await convertDates(response.data);
-    
-    setTasks(convertData);
+    // console.log(rgbColor);
+    return rgbColor;
   }
 
-  const convertDates = async (data) => {
-    const convDate = data.map((task) => {
-      return {
-        ...task,
-        start: formatDate(task.start),
-        end: formatDate(task.end),
-      };
-    });
-    return convDate;
-  }
 
     return(
 
         // Do poprawy statyczna szerokość
-        <div className="scroll-view"> 
-            {/* {isTasksLoaded ? <Gantt tasks={tasks} locale="pl" /> : <p>Loading...</p>} */}
-            {/* <Gantt /> */}
+        <div style={{ width: 200, height: 200 }}> 
+          <div >
+            <CircularProgressbar
+              value={percentageProg}
+              text={`${percentageProg}%`}
+              strokeWidth={14}
+              styles={buildStyles({
+                textColor: 'black',
+                // pathColor: `rgba(62, 152, 199, ${percentageProg / 100})`,
+                pathColor: getRgbaColor(percentageProg),
+                trailColor: '#d6d6d6',
+              })}
+            />
+          </div>
+        <input type="range" min="1" max="100" step="1" style={{width: "100%"}} value={percentageProg} onChange={ (e) => {setPercentageProg(e.target.value)} }/>
+
         </div>
     )
 }

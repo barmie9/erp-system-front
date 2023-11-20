@@ -10,7 +10,7 @@ function Menu(props) {
       <div className="menu-div">
 
         <div className='menu-li'><Link to="/">O nas</Link></div>
-        <div className='menu-li'><Link to="/">Moja konto</Link></div>
+        <div className='menu-li'><Link to="/">Moje konto</Link></div>
 
         {props.role !== null && <div className='menu-li' onClick={ AuthenticationService.logout} ><Link to="/">Wyloguj</Link></div> }
         {props.role === null && <div className='menu-li'><Link to="/login">Zaloguj</Link></div> }

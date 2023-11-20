@@ -69,6 +69,16 @@ class ApiDataService{
         {headers: AuthenticationHeader() });
     }
 
+    getTaskById(taskId){
+        return axios.post(apiUrl + 'api/task', {taskId},
+        {headers: AuthenticationHeader() });
+    }
+
+    updateProgresTask(taskId,progress){
+        return axios.post(apiUrl+ 'api/update-task-progress', {taskId,progress},
+        {headers: AuthenticationHeader() });
+    }
+
 }
 
 export default new ApiDataService();

@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import ApiDataService from "../services/ApiDataService";
 import {getUserIdFromMemory} from '../services/MemoryService';
 
 function UserTasks(){
     const [tasks, setTasks] = useState([]);
+    const navigate = useNavigate();
 
     useEffect( () => {
         fetchTasks();
@@ -15,7 +17,16 @@ function UserTasks(){
     }
 
     const handleEditTask = (id) => {
-        console.log(" TASK : ", id);
+        navigate("/tasks/task", { state: {taskId: id} });
+    }
+
+    const progresColor = (progress) =>{
+        if(progress < 25)
+            return '#FF6E6E';
+        if(progress >= 25 && progress < 100)
+            return '#FFD56E';
+
+        return '#6EFF6E';
     }
 
     return(
@@ -37,9 +48,10 @@ function UserTasks(){
             {tasks.map(task => (
                 <tr 
                 key={task.id} 
-                className={`tab-row-body ${task.progress >= 50 ? 'high-progress' : 'low-progress'}`}   
+                style={{backgroundColor: progresColor(task.progress)}}
+                className={`tab-row-body `}   
                 onClick={ () => {handleEditTask(task.id)} }>
-                    
+
                 <td className="tab-tuple-td">{task.name}</td>
                 <td className="tab-tuple-td">{task.descr}</td>
                 <td className="tab-tuple-td">{task.start}</td>
