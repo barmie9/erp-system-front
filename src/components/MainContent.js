@@ -6,7 +6,7 @@ import Register from "./Register";
 import Test from "./Test";
 import Users from "./Users";
 import Orders from "./Orders";
-import OrderDetails from "./OrderDetails";
+import OrderDetails from "./orderDetailsScreen/OrderDetails";
 import UserTasks from "./UserTasks";
 import UserTask from "./userTask/UserTask";
 

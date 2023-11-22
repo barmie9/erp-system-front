@@ -1,12 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect} from "react";
 import { useLocation } from "react-router-dom";
 import DatePicker from 'react-datepicker';
 // import { Gantt, Task, EventOption, StylingOption, ViewMode, DisplayOption } from 'gantt-task-react';
 import { Gantt } from 'gantt-task-react';
 import Select from "react-select";
-import ApiDataService from "../services/ApiDataService";
-import {formatDate,formatDateToStr} from '../services/DataConverter';
+import ApiDataService from "../../services/ApiDataService";
+import {formatDate,formatDateToStr} from '../../services/DataConverter';
+import './OrderDetails.css';
 
+
+// Do dodawania plików z komputera
+//npm install react-dropzone
+import { useDropzone } from 'react-dropzone';
+ 
 function OrderDetails (){
     const [refreshGantt, setRefreashGantt] = useState(false);
     const [refreshEditOrder, setRefreshEditOrder] = useState(false);
@@ -38,6 +44,15 @@ function OrderDetails (){
     const [companyOptions,setCompanyOptions] = useState([]);
     const [companyStr, setCompanyStr] = useState("");
     const [companyId, setCompanyId] = useState(null);
+
+    // -- Do wczytywania plików z komputera
+    const [acceptedFiles, setAcceptedFiles] = useState([]);
+    const { getRootProps, getInputProps } = useDropzone({
+      onDrop: (files) => {
+        // Obsługa przeciągania i upuszczania plików
+        setAcceptedFiles(files);
+      }
+    });
 
     const today = new Date();
     const maxDate = new Date(today.getFullYear() + 20, 11, 31); // 20 lat do przodu
@@ -118,8 +133,10 @@ function OrderDetails (){
 
 
     const handleAddTask = async () => {
+
         // todo Do napisania obsługa błędów
         const response = await ApiDataService.addTask(newTaskName,newTaskDescr,formatDateToStr(newTaskDateStart),formatDateToStr(newTaskDateEnd),employeeId,state.id);
+        const fileResponse = await ApiDataService.addTaskFiles(acceptedFiles,response.data);
 
         // Czyszczenie inputów:
         setNewTaskName("");
@@ -128,6 +145,8 @@ function OrderDetails (){
         setNewTaskDateEnd(null);
         setEmployeeId(null);
         setEmployeeStr("");
+
+        setAcceptedFiles([]);
 
         // Odświeżenie wykresu Gantta (Ponowne pobranie z serwera)
         setRefreashGantt(!refreshGantt);
@@ -145,9 +164,12 @@ function OrderDetails (){
         setCompanyStr("");
         setEditOrderDate(null);
 
+
         // Odświeżenie komponentów korzystającyhc ze zlecenia
         setRefreshEditOrder(!refreshEditOrder);
     }
+
+
 
     return(
         <div className="content">
@@ -271,10 +293,32 @@ function OrderDetails (){
                         // locale={pl} // Ustaw polską lokalizację
                     />
                 </div>
-                <div style={{marginRight: "10px",paddingRight: "10px"}}>
-                    <button className="button" onClick={handleAddTask}>Dodaj</button>
-                </div>
+
             </div>
+
+            <section className="dropzone-container">
+                <div {...getRootProps({className: 'dropzone'})}>
+                    <input {...getInputProps()} />
+                    <p>Kliknij tutaj lub upuść, aby doać pliki</p>
+                </div>
+                <aside>
+                    <h4>Lista Plików:</h4>
+                    <ul>
+                        {
+                            acceptedFiles.map(file => (
+                                <li key={file.path}>
+                                    {file.path} - {file.size} bytes
+                                </li>
+                                ))
+                        }
+                    </ul>
+                </aside>
+                
+            </section>
+            <div>
+                <button className="button" onClick={handleAddTask}>Dodaj zadanie</button>
+            </div>
+            
 
             <hr className="line" />
 

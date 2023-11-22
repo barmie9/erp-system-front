@@ -50,8 +50,23 @@ class ApiDataService{
     }
 
     addTask(name,descr,startDate,endDate,userId,orderId){
-        return axios.post(apiUrl + 'api/add-task',{name,descr,startDate,endDate,userId,orderId} ,
+        return axios.post(apiUrl + 'api/add-task',{name,descr,startDate,endDate,userId,orderId},
         {headers: AuthenticationHeader() });
+    }
+
+    addTaskFiles(files,taskId){
+        // Formatowanie plików do wysłania
+        const formData = new FormData();
+        for (let i = 0; i < files.length; i++) {
+            formData.append('files', files[i]);
+          }
+        formData.append('taskId', taskId);
+
+        return axios.post(apiUrl + 'api/add-task-files',formData ,
+        {headers: {
+            ...AuthenticationHeader(),
+            'Content-Type': 'multipart/form-data',
+          }, });
     }
 
     editOrder(id,name,quantity,companyOrderId,expectDate){
