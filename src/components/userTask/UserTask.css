@@ -5,7 +5,18 @@
     align-items: center;
     flex-direction: column;
     min-width: 800px;
-    margin-bottom: 5%;
+}
+
+.horizontal-flex{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-around;
+}
+
+.vertical-flex{
+    display: flex;
+    flex-direction: column;
 }
 
 .task-name-container{
@@ -17,14 +28,14 @@
     flex-direction: row;
     justify-content: space-between;
     align-self:stretch;
-    /* margin: 20px; */
     
 }
 .task-description{
     border: 1px solid gray;
-    height: 200px;
+    border-radius: 5px;
+    height: 180px;
     width: 600px;
-    background-color: #F3F3F3;
+    background-color: azure;
     padding: 10px;
     font-size: medium;
     overflow-y: scroll;
@@ -32,8 +43,8 @@
 
 .task-dates-container{
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: center;
     align-self:stretch;
 }
 
@@ -50,4 +61,32 @@
     text-align: center;
     font-size: medium;
     font-weight: 500;
+}
+
+.file-list-container{
+    background-color: azure;
+    border: 1px solid gray; 
+    height: 100%;
+    padding-right: 10px;
+    border-radius: 5px;
+    margin: 0px;
+    min-width: 110px;
+    overflow-y: scroll ;
+}
+
+.file-container{
+
+    color: #000dbd;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.file-container:hover{
+    background-color: #F5F5F5;
+}
+
+.text-container{
+    font-size: large;
+    font-weight: 600;
+    padding-bottom: 3px;
 }

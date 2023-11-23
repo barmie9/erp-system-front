@@ -172,7 +172,7 @@ body {
   display: flex;
   flex: 1;
   justify-content: center;
-  align-items: center;
+  /* align-items: center; */
   margin: 0;
 }
 
@@ -182,6 +182,7 @@ body {
   border-radius: 10px; /* Zakrąglenie rogów */
   max-width: 400px; 
   width: 100%;
+  align-self: center;
   /* box-sizing: border-box; */
   flex-direction: column;
 

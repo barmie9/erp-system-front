@@ -9,16 +9,22 @@ export default function UserTask(){
     const [task, setTask] = useState({});
     const [percentageProg, setPercentageProg] = useState(10);
     const [showMessage, setShowMessage] = useState(false);
+    const [fileList, setFileList] = useState([]);
 
     useEffect( () => {
         fetchTask();
+        fetchTaskFileList();
     },[]);
 
     const fetchTask = async () => {
         const response = await ApiDataService.getTaskById(state.taskId);
          setTask(response.data);
          setPercentageProg(response.data.progress);
-        //  console.log("PROGRESS:: ", percentageProg);
+    }
+
+    const fetchTaskFileList = async () => {
+        const response = await ApiDataService.getTaskFileList(state.taskId);
+        setFileList(response.data);
     }
 
     const handleSaveProgress = () => {
@@ -28,43 +34,65 @@ export default function UserTask(){
         // Pokazuj komunikat
         setShowMessage(true);
 
-        // Ukryj komunikat po 2000 milisekundach (2 sekundy)
+        // Ukryj komunikat po 1000 milisekundach 
         setTimeout(() => {
         setShowMessage(false);
         }, 1000);
     }
 
+    const handleDownloadFile = (fileId, fileName) => {
+        // todo Do napisania obsługa błędów
+        console.log("DOWNLOAD FILE")
+        ApiDataService.downloadFile(fileId,fileName);
+    }
+
     return(
         <div className="user-task-content">
+
             <div id="task-name" className="task-name-container">
                 <h1>Twoje zadanie: {task.name}</h1>
-                {/* <h2>{task.name}</h2> */}
             </div>
 
-            <div id="task-progress" className="task-progress-container">
-                <ProgressBar percent={percentageProg} />
-                <div>
-                    <input type="range" min="1" max="100" step="1" style={{width: "100%", height: "30px"}} value={percentageProg} onChange={ (e) => {setPercentageProg(e.target.value)} }/>
+
+            <div className="horizontal-flex">
+                <div id="task-progress" className="task-progress-container">
+                    <ProgressBar percent={percentageProg} />
+                    <div>
+                        <input type="range" min="1" max="100" step="1" style={{width: "100%", height: "30px"}} value={percentageProg} onChange={ (e) => {setPercentageProg(e.target.value)} }/>
+                    </div>
+                    <button className="button" onClick={handleSaveProgress}>Zapisz</button>
+                    {showMessage && <div className="message-container">Progres zaaktualizowany</div>}
                 </div>
-                <button className="button" onClick={handleSaveProgress}>Zapisz</button>
-                {showMessage && <div className="message-container">Progres zaaktualizowany</div>}
+                <div id="task-dates" className="task-dates-container">
+                    <h2>Data rozpoczęcia: {task.start}</h2>
+                    <h2>Data zakończenia: {task.end}</h2>
+                </div>
+
             </div>
 
-            <hr className="line" />
+
             <div id="task-descr" className="task-descr-container">
-                <h2>Opis:</h2>
-                <div className="task-description">
-                    {task.descr}
+                <div className="vertical-flex">
+                    <div className="text-container">Dokładny opis zadania:</div>
+                    <div className="task-description">
+                        {task.descr}
+                    </div>
                 </div>
-            </div>
-            <hr className="line" />
-            <div id="task-dates" className="task-dates-container">
-                <h2>Data rozpoczęcia: {task.start}</h2>
-                <h2>Data zakończenia: {task.end}</h2>
-            </div>
-            <hr className="line" />
+                <div className="vertical-flex">
+                    <div className="text-container">Załączone pliki:</div>
+                    <ul className="file-list-container">
+                        {fileList.map(file => (
+                        <li key={file.fileId} onClick={() => {handleDownloadFile(file.fileId,file.name)} }>
+                            <div className="file-container">{file.name}</div>
+                        </li>
+                        ))}
+                    </ul>
+                </div>
 
-            <hr className="line" /> 
+
+
+            </div>
+
         </div>
     )
 }

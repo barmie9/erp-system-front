@@ -94,6 +94,40 @@ class ApiDataService{
         {headers: AuthenticationHeader() });
     }
 
+    getTaskFileList(taskId){
+        const formData = new FormData();
+
+        formData.append('taskId',taskId);
+
+        return axios.post(apiUrl+ 'api/get-task-files-list', {taskId},
+        {headers: AuthenticationHeader() });
+    }   
+
+    async downloadFile(fileId, fileName){
+        const response = await axios.get( apiUrl + `api/get-file/${fileId}`, {
+            responseType: 'blob', // Ustawienie responseType na 'blob' dla plików binarnych
+            headers: AuthenticationHeader(),
+          });
+
+      // Utwórz obiekt URL dla pliku binarnego
+      const fileUrl = window.URL.createObjectURL(new Blob([response.data]));
+
+      // Utwórz link do pobrania pliku
+      const downloadLink = document.createElement('a');
+      downloadLink.href = fileUrl;
+      downloadLink.setAttribute('download', fileName); // Ustaw nazwę pliku do pobrania
+
+      // Dodaj link do DOM
+      document.body.appendChild(downloadLink);
+
+      // Kliknij link, aby rozpocząć pobieranie
+      downloadLink.click();
+
+      // Usuń link z DOM po pobraniu pliku
+      document.body.removeChild(downloadLink);
+
+    }
+
 }
 
 export default new ApiDataService();
