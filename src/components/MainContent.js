@@ -9,6 +9,7 @@ import Orders from "./Orders";
 import OrderDetails from "./orderDetailsScreen/OrderDetails";
 import UserTasks from "./UserTasks";
 import UserTask from "./userTask/UserTask";
+import AdminTask from "./adminTask/AdminTask";
 
 function MainContent(props){
 
@@ -32,6 +33,7 @@ function AdminContent(){
             <Route path="/users" Component={ Users } />
             <Route path="/test" Component={Test} />
             <Route path="/orders/details" Component={OrderDetails} />
+            <Route path="/orders/details/userTask" Component={AdminTask} />
         </Routes>
     )
 }

@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+// const apiUrl = 'http://probartek.ddns.net:8080/';
 const apiUrl = 'http://localhost:8080/';
 
 class AuthenticationService{

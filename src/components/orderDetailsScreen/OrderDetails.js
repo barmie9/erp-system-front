@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import DatePicker from 'react-datepicker';
 // import { Gantt, Task, EventOption, StylingOption, ViewMode, DisplayOption } from 'gantt-task-react';
 import { Gantt } from 'gantt-task-react';
@@ -53,6 +53,9 @@ function OrderDetails (){
         setAcceptedFiles(files);
       }
     });
+
+    // Do nawigowania pomiędzy ekrananami
+    const navigate = useNavigate();
 
     const today = new Date();
     const maxDate = new Date(today.getFullYear() + 20, 11, 31); // 20 lat do przodu
@@ -136,7 +139,10 @@ function OrderDetails (){
 
         // todo Do napisania obsługa błędów
         const response = await ApiDataService.addTask(newTaskName,newTaskDescr,formatDateToStr(newTaskDateStart),formatDateToStr(newTaskDateEnd),employeeId,state.id);
-        const fileResponse = await ApiDataService.addTaskFiles(acceptedFiles,response.data);
+
+        if(acceptedFiles.length > 0 ){ // Jeśli użytkownik wybrał jakieś pliki
+            const fileResponse = await ApiDataService.addTaskFiles(acceptedFiles,response.data);
+        }
 
         // Czyszczenie inputów:
         setNewTaskName("");
@@ -168,7 +174,6 @@ function OrderDetails (){
         // Odświeżenie komponentów korzystającyhc ze zlecenia
         setRefreshEditOrder(!refreshEditOrder);
     }
-
 
 
     return(
@@ -239,7 +244,7 @@ function OrderDetails (){
             {/* Wykres Gantta - Wyświetlany tylko wtedy gdy tablica z zadaniami nie jest pusta i dane zostały pobrane z serwera*/}
             <div className="scroll-view"> 
                 {isTasksLoaded ? 
-                ( tasks.length? <Gantt tasks={tasks} locale="pl" /> : <h2>Brak zadań w zleceniu.</h2>): 
+                ( tasks.length? <Gantt tasks={tasks} locale="pl" onClick={ (task) => {navigate("/orders/details/userTask", { state: {taskId: task.id} })} }/> : <h2>Brak zadań w zleceniu.</h2>): 
                 <p>Loading...</p>}
             </div>
 

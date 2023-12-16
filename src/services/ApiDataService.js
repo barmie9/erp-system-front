@@ -2,6 +2,7 @@ import axios from "axios";
 import AuthenticationHeader from "./AuthenticationHeader";
 
 const apiUrl = 'http://localhost:8080/';
+// const apiUrl = 'http://probartek.ddns.net:8080/';
 const errorMessage = 'ERROR_API_DATA_ERP_SYSTEM: ';
 
 class ApiDataService{
@@ -91,6 +92,16 @@ class ApiDataService{
 
     updateProgresTask(taskId,progress){
         return axios.post(apiUrl+ 'api/update-task-progress', {taskId,progress},
+        {headers: AuthenticationHeader() });
+    }
+
+    updateTask(taskId,progress,name,descr,start,end){
+        return axios.post(apiUrl + 'api/update-task', {taskId,progress,name,descr,start,end},
+        {headers: AuthenticationHeader() });
+    }
+
+    deleteFiles(deleteFileIdList){
+        return axios.post(apiUrl + 'api/delete-files', {deleteFileIdList},
         {headers: AuthenticationHeader() });
     }
 
