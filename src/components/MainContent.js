@@ -10,6 +10,7 @@ import OrderDetails from "./orderDetailsScreen/OrderDetails";
 import UserTasks from "./UserTasks";
 import UserTask from "./userTask/UserTask";
 import AdminTask from "./adminTask/AdminTask";
+import Companies from "./companies/Companies";
 
 function MainContent(props){
 
@@ -27,7 +28,7 @@ function AdminContent(){
         <Routes>
             <Route path="/"  Component={Home} />
             <Route path="/orders" Component={ Orders } />
-            <Route path="/companies" Component={ () => {return(<h1>Lista Zleceniodawców</h1>)} } />
+            <Route path="/companies" Component={ Companies} />
             <Route path="/magazin" Component={ () => {return(<h1>Stan Magazynowy</h1>)} } />
             <Route path="/semi-products" Component={ () => {return(<h1>Półprodukty</h1>)} } />
             <Route path="/users" Component={ Users } />

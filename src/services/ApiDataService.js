@@ -37,7 +37,16 @@ class ApiDataService{
     }
 
     getCompanyOrder(){
-        return axios.get(apiUrl + 'api/companyorders',{headers: AuthenticationHeader() });
+        return axios.get(apiUrl + 'api/company-orders',{headers: AuthenticationHeader() });
+    }
+
+    addCompanyOrder(name,phoneNumber,nipNumber){
+        return axios.post(apiUrl + 'api/add-company',{name,phoneNumber,nipNumber},
+        {headers: AuthenticationHeader() } );
+    }
+
+    deleteCompanyOrder(companyId){
+        return axios.delete(apiUrl + `api/delete-company/${companyId}`,{headers: AuthenticationHeader() });
     }
 
     addOrder(name,quantity,createDate,expectDate,realDate,orderManagerId,companyOrderId){
