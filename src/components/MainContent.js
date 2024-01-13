@@ -1,7 +1,7 @@
 import React from "react";
 import Login from "./Login";
-import {Route, Routes} from 'react-router-dom';
-import Home from "./Home";
+import { Route, Routes } from 'react-router-dom';
+import Home from "../Home/Home";
 import Register from "./Register";
 import Test from "./Test";
 import Users from "./Users";
@@ -12,9 +12,9 @@ import UserTask from "./userTask/UserTask";
 import AdminTask from "./adminTask/AdminTask";
 import Companies from "./companies/Companies";
 
-function MainContent(props){
+function MainContent(props) {
 
-    return(
+    return (
         <div className="right-content">
             {props.role === 'ADMIN' && <AdminContent />}
             {props.role === 'USER' && <UserContent />}
@@ -23,15 +23,15 @@ function MainContent(props){
     )
 }
 
-function AdminContent(){
-    return(
+function AdminContent() {
+    return (
         <Routes>
-            <Route path="/"  Component={Home} />
-            <Route path="/orders" Component={ Orders } />
-            <Route path="/companies" Component={ Companies} />
-            <Route path="/magazin" Component={ () => {return(<h1>Stan Magazynowy</h1>)} } />
-            <Route path="/semi-products" Component={ () => {return(<h1>Półprodukty</h1>)} } />
-            <Route path="/users" Component={ Users } />
+            <Route path="/" Component={Home} />
+            <Route path="/orders" Component={Orders} />
+            <Route path="/companies" Component={Companies} />
+            <Route path="/magazin" Component={() => { return (<h1>Stan Magazynowy</h1>) }} />
+            <Route path="/semi-products" Component={() => { return (<h1>Półprodukty</h1>) }} />
+            <Route path="/users" Component={Users} />
             <Route path="/test" Component={Test} />
             <Route path="/orders/details" Component={OrderDetails} />
             <Route path="/orders/details/userTask" Component={AdminTask} />
@@ -39,23 +39,23 @@ function AdminContent(){
     )
 }
 
-function UserContent(){
-    return(
+function UserContent() {
+    return (
         <Routes>
-            <Route path="/"  Component={Home} />
-            <Route path="/tasks" Component={ UserTasks} />
-            <Route path="/tasks/task" Component={ UserTask} />
+            <Route path="/" Component={Home} />
+            <Route path="/tasks" Component={UserTasks} />
+            <Route path="/tasks/task" Component={UserTask} />
             <Route path="/test" Component={Test} />
         </Routes>
     )
 }
 
-function NoUserContent(){
-    return(
+function NoUserContent() {
+    return (
         <Routes>
-            <Route path="/"  Component={Home} />
+            <Route path="/" Component={Home} />
             <Route path="/login" Component={Login} />
-            <Route path="/test" Component={Test } />
+            <Route path="/test" Component={Test} />
             <Route path="register" Component={Register} />
         </Routes>
     )
