@@ -4,22 +4,22 @@ import ApiDataService from "../../services/ApiDataService";
 import ProgressBar from "../progressBar/PrgogressBar";
 import './UserTask.css';
 
-export default function UserTask(){
+export default function UserTask() {
     const { state } = useLocation();
     const [task, setTask] = useState({});
     const [percentageProg, setPercentageProg] = useState(10);
     const [showMessage, setShowMessage] = useState(false);
     const [fileList, setFileList] = useState([]);
 
-    useEffect( () => {
+    useEffect(() => {
         fetchTask();
         fetchTaskFileList();
-    },[]);
+    }, []);
 
     const fetchTask = async () => {
         const response = await ApiDataService.getTaskById(state.taskId);
-         setTask(response.data);
-         setPercentageProg(response.data.progress);
+        setTask(response.data);
+        setPercentageProg(response.data.progress);
     }
 
     const fetchTaskFileList = async () => {
@@ -29,24 +29,24 @@ export default function UserTask(){
 
     const handleSaveProgress = () => {
         console.log("SAVE PROGRESS: ", percentageProg);
-        const response = ApiDataService.updateProgresTask(state.taskId,percentageProg);
+        const response = ApiDataService.updateProgresTask(state.taskId, percentageProg);
 
         // Pokazuj komunikat
         setShowMessage(true);
 
         // Ukryj komunikat po 1000 milisekundach 
         setTimeout(() => {
-        setShowMessage(false);
+            setShowMessage(false);
         }, 1000);
     }
 
     const handleDownloadFile = (fileId, fileName) => {
         // todo Do napisania obsługa błędów
         console.log("DOWNLOAD FILE")
-        ApiDataService.downloadFile(fileId,fileName);
+        ApiDataService.downloadFile(fileId, fileName);
     }
 
-    return(
+    return (
         <div className="user-task-content">
 
             <div id="task-name" className="task-name-container">
@@ -58,7 +58,7 @@ export default function UserTask(){
                 <div id="task-progress" className="task-progress-container">
                     <ProgressBar percent={percentageProg} />
                     <div>
-                        <input type="range" min="1" max="100" step="1" style={{width: "100%", height: "30px"}} value={percentageProg} onChange={ (e) => {setPercentageProg(e.target.value)} }/>
+                        <input type="range" min="1" max="100" step="1" style={{ width: "100%", height: "30px" }} value={percentageProg} onChange={(e) => { setPercentageProg(e.target.value) }} />
                     </div>
                     <button className="button" onClick={handleSaveProgress}>Zapisz</button>
                     {showMessage && <div className="message-container">Progres zaaktualizowany</div>}
@@ -66,10 +66,11 @@ export default function UserTask(){
                 <div id="task-dates" className="task-dates-container">
                     <h2>Data rozpoczęcia: {task.start}</h2>
                     <h2>Data zakończenia: {task.end}</h2>
+                    <h2>Maszyna/Urządzenie: {task.device}</h2>
+
                 </div>
 
             </div>
-
 
             <div id="task-descr" className="task-descr-container">
                 <div className="vertical-flex">
@@ -82,14 +83,12 @@ export default function UserTask(){
                     <div className="text-container">Załączone pliki:</div>
                     <ul className="file-list-container">
                         {fileList.map(file => (
-                        <li key={file.fileId} onClick={() => {handleDownloadFile(file.fileId,file.name)} }>
-                            <div className="file-container">{file.name}</div>
-                        </li>
+                            <li key={file.fileId} onClick={() => { handleDownloadFile(file.fileId, file.name) }}>
+                                <div className="file-container">{file.name}</div>
+                            </li>
                         ))}
                     </ul>
                 </div>
-
-
 
             </div>
 

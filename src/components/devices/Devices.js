@@ -68,7 +68,7 @@ export default function Devices() {
                         <tr className='tab-row-header'>
                             <th >Nazwa</th>
                             <th >Opis</th>
-                            <th >Maksymalne liczba osób</th>
+                            <th >Maksymalna liczba osób</th>
                             <th ></th>
                         </tr>
                     </thead>
