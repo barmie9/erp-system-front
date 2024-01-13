@@ -11,6 +11,7 @@ import UserTasks from "./UserTasks";
 import UserTask from "./userTask/UserTask";
 import AdminTask from "./adminTask/AdminTask";
 import Companies from "./companies/Companies";
+import Warehouse from "../warehouse/Warehouse";
 
 function MainContent(props) {
 
@@ -29,8 +30,7 @@ function AdminContent() {
             <Route path="/" Component={Home} />
             <Route path="/orders" Component={Orders} />
             <Route path="/companies" Component={Companies} />
-            <Route path="/magazin" Component={() => { return (<h1>Stan Magazynowy</h1>) }} />
-            <Route path="/semi-products" Component={() => { return (<h1>Półprodukty</h1>) }} />
+            <Route path="/magazin" Component={Warehouse} />
             <Route path="/users" Component={Users} />
             <Route path="/test" Component={Test} />
             <Route path="/orders/details" Component={OrderDetails} />
