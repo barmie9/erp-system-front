@@ -145,6 +145,20 @@ class ApiDataService {
             { headers: AuthenticationHeader() });
     }
 
+    getDevices() {
+        return axios.get(apiUrl + 'api/devices', { headers: AuthenticationHeader() });
+    }
+
+    deleteDevice(id) {
+        return axios.post(apiUrl + 'api/delete-device', { id },
+            { headers: AuthenticationHeader() });
+    }
+
+    addDevice(name, descr, personNum) {
+        return axios.post(apiUrl + 'api/add-device', { name, descr, personNum },
+            { headers: AuthenticationHeader() });
+    }
+
     async downloadFile(fileId, fileName) {
         const response = await axios.get(apiUrl + `api/get-file/${fileId}`, {
             responseType: 'blob', // Ustawienie responseType na 'blob' dla plików binarnych

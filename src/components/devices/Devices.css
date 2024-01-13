@@ -1,0 +1,14 @@
+.delete-button-devices {
+    background-color: #fc3b3b;
+    text-align: center;
+
+    padding: 6px;
+    margin-right: 5px;
+    border: 1px solid gray;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.delete-button-devices:hover {
+    background-color: #f89191;
+}

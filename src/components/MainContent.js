@@ -1,7 +1,7 @@
 import React from "react";
 import Login from "./Login";
 import { Route, Routes } from 'react-router-dom';
-import Home from "../Home/Home";
+import Home from './home/Home';
 import Register from "./Register";
 import Test from "./Test";
 import Users from "./Users";
@@ -11,7 +11,8 @@ import UserTasks from "./UserTasks";
 import UserTask from "./userTask/UserTask";
 import AdminTask from "./adminTask/AdminTask";
 import Companies from "./companies/Companies";
-import Warehouse from "../warehouse/Warehouse";
+import Warehouse from "./warehouse/Warehouse";
+import Devices from "./devices/Devices";
 
 function MainContent(props) {
 
@@ -31,6 +32,7 @@ function AdminContent() {
             <Route path="/orders" Component={Orders} />
             <Route path="/companies" Component={Companies} />
             <Route path="/magazin" Component={Warehouse} />
+            <Route path="/devices" Component={Devices} />
             <Route path="/users" Component={Users} />
             <Route path="/test" Component={Test} />
             <Route path="/orders/details" Component={OrderDetails} />

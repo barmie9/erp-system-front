@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import './Warehouse.css';
-import ApiDataService from "../services/ApiDataService";
+import ApiDataService from "../../services/ApiDataService";
 
 export default function Warehouse() {
     const [semiProducts, setSemiProducts] = useState([]);
@@ -97,7 +97,7 @@ export default function Warehouse() {
                     </thead>
                     <tbody>
                         {semiProducts.map(semiProduct => (
-                            <tr key={semiProduct.id} className='tab-row-body-warehouse' onClick={() => { console.log("Click on semi product") }}>
+                            <tr key={semiProduct.id} className='tab-row-body-warehouse' >
                                 <td className="tab-tuple-td">{semiProduct.name}</td>
                                 <td className="tab-tuple-td">{semiProduct.descr}</td>
                                 <td className="tab-tuple-td">{semiProduct.unit}</td>
