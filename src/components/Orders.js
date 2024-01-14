@@ -17,6 +17,7 @@ import { checkFields } from "../services/ServiceFunctions";
 function Orders() {
     const [orders, setOrders] = useState([]);
     const [refresh, setRefresh] = useState(false);
+    const [filter, setFilter] = useState("");
 
     const navigate = useNavigate();
 
@@ -38,7 +39,9 @@ function Orders() {
         navigate("/orders/details", { state: order });
     }
 
-    const dataToPass = { name: 'John Doe', age: 25 };
+    const filteredOrders = orders.filter((order) =>
+        order.name.toLowerCase().includes(filter.toLowerCase())
+    );
 
     return (
         <div className="content">
@@ -46,10 +49,10 @@ function Orders() {
             <h2>Dodaj zlecenie:</h2>
             <AddOrder refreshParent={handleRefresh} />
 
-            {/* <Link to={{ pathname: '/orderdetails', state: dataToPass }}>Go to Other Component</Link> */}
-
             <h2>Lista zleceń:</h2>
-            <div className="custom-input-container"><input placeholder="Filtruj po nazwisku" className="custom-input" /></div>
+            <div className="custom-input-container">
+                <input placeholder="Filtruj po nazwie" className="custom-input" value={filter} onChange={(e) => { setFilter(e.target.value) }} />
+            </div>
             <table className="table">
                 <thead>
                     <tr className='tab-row-header'>
@@ -63,7 +66,7 @@ function Orders() {
                     </tr>
                 </thead>
                 <tbody>
-                    {orders.map(order => (
+                    {filteredOrders.map(order => (
                         <tr key={order.id} className='tab-row-body' onClick={() => { handleOrderDetails(order) }}>
                             <td className="tab-tuple-td">{order.name}</td>
                             <td className="tab-tuple-td">{order.quantity}</td>

@@ -13,6 +13,8 @@ export default function Companies() {
     const [showMessage, setShowMessage] = useState(false);
     const [messageContent, setMessageContent] = useState("");
 
+    const [filter, setFilter] = useState("");
+
     useEffect(() => {
         fetchCompanies();
     }, [])
@@ -50,6 +52,9 @@ export default function Companies() {
 
     }
 
+    const filteredCompanies = companies.filter((company) =>
+        company.name.toLowerCase().includes(filter.toLowerCase())
+    );
 
     return (
         <div className="companies-content">
@@ -68,6 +73,10 @@ export default function Companies() {
                 <button className="button" onClick={handleAddCompany}>Dodaj</button>
             </div>
 
+            <div className="custom-input-container">
+                <input placeholder="Filtruj po nazwie" className="custom-input" value={filter} onChange={(e) => { setFilter(e.target.value) }} />
+            </div>
+
             {showMessage && <div className="message-error-container">{messageContent}</div>}
 
 
@@ -81,7 +90,7 @@ export default function Companies() {
                     </tr>
                 </thead>
                 <tbody>
-                    {companies.map(company => (
+                    {filteredCompanies.map(company => (
                         <tr key={company.id} className='tab-row-body' >
                             <td className="tab-tuple-td" onClick={() => { handleEditCompany(company.id) }} >{company.name}</td>
                             <td className="tab-tuple-td" onClick={() => { handleEditCompany(company.id) }} >{company.phoneNumber == null ? '-' : company.phoneNumber}</td>

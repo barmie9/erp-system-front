@@ -10,7 +10,7 @@ export default function Warehouse() {
     const [unit, setUnit] = useState("");
     const [quantity, setQuantity] = useState("");
     const [refreshTab, setRefreshTab] = useState(false);
-    const [filtr, setFiltr] = useState("");
+    const [filter, setFilter] = useState("");
 
     useEffect(() => {
         fetchSemiProducts();
@@ -66,6 +66,10 @@ export default function Warehouse() {
 
     }
 
+    const filteredSemiProducts = semiProducts.filter((product) =>
+        product.name.toLowerCase().includes(filter.toLowerCase())
+    );
+
     return (
         <div>
             <div className="inventory-warehouse">
@@ -89,7 +93,7 @@ export default function Warehouse() {
                 </div>
 
                 <div className="custom-input-container">
-                    <input placeholder="Filtruj po nazwie" className="custom-input" value={filtr} onChange={(e) => { setFiltr(e.target.value) }} />
+                    <input placeholder="Filtruj po nazwie" className="custom-input" value={filter} onChange={(e) => { setFilter(e.target.value) }} />
                 </div>
                 <table className="table">
                     <thead>
@@ -103,7 +107,7 @@ export default function Warehouse() {
                         </tr>
                     </thead>
                     <tbody>
-                        {semiProducts.map(semiProduct => (
+                        {filteredSemiProducts.map(semiProduct => (
                             <tr key={semiProduct.id} className='tab-row-body-warehouse' >
                                 <td className="tab-tuple-td">{semiProduct.name}</td>
                                 <td className="tab-tuple-td">{semiProduct.descr}</td>

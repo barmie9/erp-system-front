@@ -10,7 +10,7 @@ export default function Devices() {
     const [personNum, setPersonNum] = useState("");
 
     const [refreshTab, setRefreshTab] = useState(false);
-    const [filtr, setFiltr] = useState("");
+    const [filter, setFilter] = useState("");
 
     useEffect(() => {
         featchDevices();
@@ -45,6 +45,10 @@ export default function Devices() {
 
     }
 
+    const filteredDevices = devices.filter((device) =>
+        device.name.toLowerCase().includes(filter.toLowerCase())
+    );
+
     return (
         <div>
             <div className="inventory-warehouse">
@@ -66,7 +70,7 @@ export default function Devices() {
                 </div>
 
                 <div className="custom-input-container">
-                    <input placeholder="Filtruj po nazwie" className="custom-input" value={filtr} onChange={(e) => { setFiltr(e.target.value) }} />
+                    <input placeholder="Filtruj po nazwie" className="custom-input" value={filter} onChange={(e) => { setFilter(e.target.value) }} />
                 </div>
                 <table className="table">
                     <thead>
@@ -78,7 +82,7 @@ export default function Devices() {
                         </tr>
                     </thead>
                     <tbody>
-                        {devices.map(device => (
+                        {filteredDevices.map(device => (
                             <tr key={device.id} className='tab-row-body-warehouse' >
                                 <td className="tab-tuple-td">{device.name}</td>
                                 <td className="tab-tuple-td">{device.descr}</td>
