@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import './Devices.css';
 import ApiDataService from "../../services/ApiDataService";
+import { checkFields } from "../../services/ServiceFunctions";
 
 export default function Devices() {
     const [devices, setDevices] = useState([]);
@@ -22,13 +23,17 @@ export default function Devices() {
     }
 
     const handleAddDevice = async () => {
-        const response = await ApiDataService.addDevice(name, descr, personNum);
 
-        setName("");
-        setDescr("");
-        setPersonNum("");
+        if (checkFields([name, descr, personNum])) {
+            const response = await ApiDataService.addDevice(name, descr, personNum);
 
-        setRefreshTab(!refreshTab);
+            setName("");
+            setDescr("");
+            setPersonNum("");
+
+            setRefreshTab(!refreshTab);
+        }
+
     }
 
     const handleDeleteDevice = async (deviceId) => {

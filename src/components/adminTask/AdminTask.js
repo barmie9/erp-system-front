@@ -5,6 +5,7 @@ import ProgressBar from "../progressBar/PrgogressBar";
 import './AdminTask.css';
 
 import { useDropzone } from 'react-dropzone';
+import { checkFields } from "../../services/ServiceFunctions";
 
 export default function AdminTask() {
     const { state } = useLocation();
@@ -57,26 +58,29 @@ export default function AdminTask() {
     const handleEditTask = async () => {
         console.log("EDIT TASK: ");
 
-        // Pokazuj komunikat
-        setShowMessage(true);
+        if (checkFields([percentageProg, name, descr, dateStart, dateEnd])) {
+            // Pokazuj komunikat
+            setShowMessage(true);
 
-        // Request edytujący Daty , opis, nazwe. 
-        const response = await ApiDataService.updateTask(state.taskId, percentageProg, name, descr, dateStart, dateEnd);
+            // Request edytujący Daty , opis, nazwe. 
+            const response = await ApiDataService.updateTask(state.taskId, percentageProg, name, descr, dateStart, dateEnd);
 
-        // Request usuwający pliki
-        if (deleteFileIdList.length > 0) {
-            const delteResponse = await ApiDataService.deleteFiles(deleteFileIdList);
+            // Request usuwający pliki
+            if (deleteFileIdList.length > 0) {
+                const delteResponse = await ApiDataService.deleteFiles(deleteFileIdList);
+            }
+
+            // Request dodający pliki
+            if (acceptedFiles.length > 0) { // Jeśli użytkownik wybrał jakieś pliki
+                const fileResponse = await ApiDataService.addTaskFiles(acceptedFiles, state.taskId);
+            }
+
+            // Ukryj komunikat po 1000 milisekundach 
+            setTimeout(() => {
+                setShowMessage(false);
+            }, 1000);
         }
 
-        // Request dodający pliki
-        if (acceptedFiles.length > 0) { // Jeśli użytkownik wybrał jakieś pliki
-            const fileResponse = await ApiDataService.addTaskFiles(acceptedFiles, state.taskId);
-        }
-
-        // Ukryj komunikat po 1000 milisekundach 
-        setTimeout(() => {
-            setShowMessage(false);
-        }, 1000);
     }
 
     const handleDownloadFile = (fileId, fileName) => {

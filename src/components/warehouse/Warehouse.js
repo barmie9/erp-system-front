@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import './Warehouse.css';
 import ApiDataService from "../../services/ApiDataService";
+import { checkFields } from "../../services/ServiceFunctions";
 
 export default function Warehouse() {
     const [semiProducts, setSemiProducts] = useState([]);
@@ -32,10 +33,13 @@ export default function Warehouse() {
     const handleUpdateQuantity = async (semiProductId) => {
         const foundProduct = semiProducts.find(item => item.id === semiProductId);
 
-        const response = await ApiDataService.updateSemiProductQuantity(semiProductId, foundProduct.quantity);
+        if (checkFields([foundProduct.quantity])) {
+            const response = await ApiDataService.updateSemiProductQuantity(semiProductId, foundProduct.quantity);
 
-        if (response.data == "OK") alert(foundProduct.name + " - Ilość : " + foundProduct.quantity);
-        setRefreshTab(!refreshTab);
+            if (response.data == "OK") alert(foundProduct.name + " - Ilość : " + foundProduct.quantity);
+            setRefreshTab(!refreshTab);
+        }
+
     }
 
     const upadteQuantity = (id, newValue) => {
@@ -48,15 +52,18 @@ export default function Warehouse() {
     }
 
     const handleAddSemiProduct = async () => {
-        console.log('Add semi product ');
-        const response = await ApiDataService.addSemiProduct(name, descr, unit, quantity);
 
-        setName("");
-        setDescr("");
-        setUnit("");
-        setQuantity(0.0);
+        if (checkFields([name, descr, unit, quantity])) {
+            const response = await ApiDataService.addSemiProduct(name, descr, unit, quantity);
 
-        setRefreshTab(!refreshTab);
+            setName("");
+            setDescr("");
+            setUnit("");
+            setQuantity(0.0);
+
+            setRefreshTab(!refreshTab);
+        }
+
     }
 
     return (

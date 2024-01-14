@@ -9,6 +9,7 @@ import { formatDate, formatDateToStr } from '../../services/DataConverter';
 import './OrderDetails.css';
 
 import { useDropzone } from 'react-dropzone';
+import { checkFields } from "../../services/ServiceFunctions";
 
 function OrderDetails() {
     const [refreshGantt, setRefreashGantt] = useState(false);
@@ -36,14 +37,13 @@ function OrderDetails() {
     const [editOrderName, setEditOrderName] = useState("");
     const [editOrderQuantity, setEditOrderQuantity] = useState("");
     const [editOrderDate, setEditOrderDate] = useState(null);
-    // const [datePicker,setDatePicker] = useState(null);
+
     // -- Select do edycji:
     const [companyOptions, setCompanyOptions] = useState([]);
     const [companyStr, setCompanyStr] = useState("");
     const [companyId, setCompanyId] = useState(null);
 
     // -- Select do urządzeń
-    // const [devices, setDevices] = useState([]);
     const [deviceOptions, setDeviceOptions] = useState([]);
     const [deviceStr, setDeviceStr] = useState("");
     const [deviceId, setDeviceId] = useState(null);
@@ -152,56 +152,56 @@ function OrderDetails() {
 
     }
 
-
-
-
     const handleAddTask = async () => {
 
-        // todo Do napisania obsługa błędów
-        const response = await ApiDataService.addTask(newTaskName, newTaskDescr, formatDateToStr(newTaskDateStart),
-            formatDateToStr(newTaskDateEnd), employeeId, state.id, deviceId);
 
-        if (response.data == "OK") {
-            if (acceptedFiles.length > 0) { // Jeśli użytkownik wybrał jakieś pliki
-                const fileResponse = await ApiDataService.addTaskFiles(acceptedFiles, response.data);
+        if (checkFields([newTaskName, newTaskDescr, newTaskDateStart, newTaskDateEnd, employeeId, deviceId])) {
+            const response = await ApiDataService.addTask(newTaskName, newTaskDescr, formatDateToStr(newTaskDateStart),
+                formatDateToStr(newTaskDateEnd), employeeId, state.id, deviceId);
+
+            if (response.data == "OK") {
+                if (acceptedFiles.length > 0) { // Jeśli użytkownik wybrał jakieś pliki
+                    const fileResponse = await ApiDataService.addTaskFiles(acceptedFiles, response.data);
+                }
+
+                // Czyszczenie inputów:
+                setNewTaskName("");
+                setNewTaskDescr("");
+                setNewTaskDateStart(null);
+                setNewTaskDateEnd(null);
+                setEmployeeId(null);
+                setEmployeeStr("");
+                setDeviceId(null);
+                setDeviceStr("");
+
+                setAcceptedFiles([]);
+
+                // Odświeżenie wykresu Gantta (Ponowne pobranie z serwera)
+                setRefreashGantt(!refreshGantt);
+            }
+            else {
+                alert("KONFLIKT: " + response.data);
             }
 
-            // Czyszczenie inputów:
-            setNewTaskName("");
-            setNewTaskDescr("");
-            setNewTaskDateStart(null);
-            setNewTaskDateEnd(null);
-            setEmployeeId(null);
-            setEmployeeStr("");
-            setDeviceId(null);
-            setDeviceStr("");
-
-            setAcceptedFiles([]);
-
-            // Odświeżenie wykresu Gantta (Ponowne pobranie z serwera)
-            setRefreashGantt(!refreshGantt);
-        }
-        else {
-            alert("KONFLIKT: " + response.data);
         }
 
     }
 
     const handleEditOrder = async () => {
 
-        // todo Do sprawdzenia odpowiedz z serwera
-        const response = await ApiDataService.editOrder(order.id, editOrderName, editOrderQuantity, companyId, formatDateToStr(editOrderDate));
+        if (checkFields([editOrderName, editOrderQuantity, companyId, editOrderDate])) {
+            const response = await ApiDataService.editOrder(order.id, editOrderName, editOrderQuantity, companyId, formatDateToStr(editOrderDate));
 
-        // Czyszczenie inputów 
-        setEditOrderName("");
-        setEditOrderQuantity("");
-        setCompanyId(null);
-        setCompanyStr("");
-        setEditOrderDate(null);
+            // Czyszczenie inputów 
+            setEditOrderName("");
+            setEditOrderQuantity("");
+            setCompanyId(null);
+            setCompanyStr("");
+            setEditOrderDate(null);
 
-
-        // Odświeżenie komponentów korzystającyhc ze zlecenia
-        setRefreshEditOrder(!refreshEditOrder);
+            // Odświeżenie komponentów korzystającyhc ze zlecenia
+            setRefreshEditOrder(!refreshEditOrder);
+        }
     }
 
 
