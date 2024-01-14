@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import DatePicker from 'react-datepicker';
-// import { Gantt, Task, EventOption, StylingOption, ViewMode, DisplayOption } from 'gantt-task-react';
 import { Gantt } from 'gantt-task-react';
 import Select from "react-select";
 import ApiDataService from "../../services/ApiDataService";
@@ -14,6 +13,7 @@ import { checkFields } from "../../services/ServiceFunctions";
 function OrderDetails() {
     const [refreshGantt, setRefreashGantt] = useState(false);
     const [refreshEditOrder, setRefreshEditOrder] = useState(false);
+    const [refreshOrderSemiProduct, setRefreshOrderSemiProduct] = useState(false);
 
     // Dane otrzymane z rodzica (Aktualnie wybrane zlecenie)
     const { state } = useLocation();
@@ -48,6 +48,14 @@ function OrderDetails() {
     const [deviceStr, setDeviceStr] = useState("");
     const [deviceId, setDeviceId] = useState(null);
 
+    // -- Do dodawania półproduktów
+    const [filter, setFilter] = useState("");
+    const [orderSemiProducts, setOrderSemiProducts] = useState([]);
+    const [semiProductOptions, setSemiProductOptions] = useState([]);
+    const [semiProductStr, setSemiProductStr] = useState("");
+    const [semiProductId, setSemiProductId] = useState(null);
+    const [orderSemiProductQuantity, setOrderSemiProductQuantity] = useState("");
+
     // -- Do wczytywania plików z komputera
     const [acceptedFiles, setAcceptedFiles] = useState([]);
     const { getRootProps, getInputProps } = useDropzone({
@@ -75,8 +83,12 @@ function OrderDetails() {
         fetchEmployee();
         fetchcCompanyOrder();
         fetchDevices();
-        // loadDataFromParent();
+        fetchSemiProducts();
     }, []);
+
+    useEffect(() => {
+        fetchOrderSemiProducts();
+    }, [refreshOrderSemiProduct]);
 
     // Odświeżenie edycji Zlecenia
     useEffect(() => {
@@ -117,6 +129,22 @@ function OrderDetails() {
         setDeviceOptions(options);
     }
 
+    const fetchSemiProducts = async () => {
+        const response = await ApiDataService.getSemiProductList();
+        var options = [];
+        response.data.map(e => {
+            options.push({ label: e.name + ' - ' + e.descr, value: e.id });
+        });
+
+        setSemiProductOptions(options);
+    }
+
+    const fetchOrderSemiProducts = async () => {
+        const response = await ApiDataService.getOrderSemiProducts(state.id);
+        setOrderSemiProducts(response.data);
+
+    }
+
 
     const convertUsers = async (users) => {
         return users.map(
@@ -149,6 +177,12 @@ function OrderDetails() {
     const setDevice = (selectedOption) => {
         setDeviceId(selectedOption.value);
         setDeviceStr(selectedOption);
+
+    }
+
+    const setSemiProduct = (selectedOption) => {
+        setSemiProductId(selectedOption.value);
+        setSemiProductStr(selectedOption);
 
     }
 
@@ -204,6 +238,57 @@ function OrderDetails() {
         }
     }
 
+    const upadteQuantity = async (id, newValue) => {
+        const updatedOrderSemiProducts = orderSemiProducts.map(item =>
+            item.id === id ? { ...item, quantity: newValue } : item
+        );
+
+        // Aktualizujemy stan nową tablicą
+        setOrderSemiProducts(updatedOrderSemiProducts)
+    };
+
+    const handleUpdateQuantity = async (id, quantity) => {
+        if (checkFields([quantity])) {
+            const response = await ApiDataService.updateOrderSemiProductQuantity(id, quantity);
+
+            if (response.data != "OK") alert(response.data);
+            else {
+                alert("Zaaktualizowano dane");
+                setRefreshOrderSemiProduct(!refreshOrderSemiProduct);
+            }
+
+        }
+    };
+
+    const handleDeleteSemiProduct = async (id) => {
+        const response = await ApiDataService.deleteOrderSemiProduct(id);
+        if (response.data == "OK") {
+            setRefreshOrderSemiProduct(!refreshOrderSemiProduct);
+        }
+        else {
+            alert(response.data);
+        }
+    };
+
+    const handleAddOrderSemiProduct = async () => {
+        const response = await ApiDataService.addOrderSemiProduct(order.id, semiProductId, orderSemiProductQuantity);
+
+        if (response.data != "OK") {
+            alert("Błąd dodawania produktu: ", response.data);
+        }
+        else {
+            // Czyszczenie inputów 
+            setOrderSemiProductQuantity("");
+            setSemiProductId(null);
+            setSemiProductStr("");
+
+            setRefreshOrderSemiProduct(!refreshOrderSemiProduct);
+        }
+    }
+
+    const filteredOrderSemiProducts = orderSemiProducts.filter((product) =>
+        product.semiProduct.name.toLowerCase().includes(filter.toLowerCase())
+    );
 
     return (
         <div className="content">
@@ -365,6 +450,63 @@ function OrderDetails() {
                 <button className="button" onClick={handleAddTask}>Dodaj zadanie</button>
             </div>
 
+            <hr className="line" />
+
+            <h1>Niezbędne półprodukty:</h1>
+            <h2>Dodaj półprodukt: </h2>
+            <div className="horizontal-orientation">
+                <div className="custom-input-container">
+                    <Select
+                        value={semiProductStr}
+                        onChange={setSemiProduct}
+                        options={semiProductOptions}
+                        isSearchable
+                        placeholder="Półprodukt"
+                    />
+                </div>
+
+                <div >
+                    <input placeholder="Ilość" className="small-input" type="number" step="0.1" onChange={(e) => { setOrderSemiProductQuantity(e.target.value) }} value={orderSemiProductQuantity} />
+                </div>
+
+                <div>
+                    <button className="button" onClick={handleAddOrderSemiProduct}>Dodaj </button>
+                </div>
+
+            </div>
+
+            <h2>Lista półproduktów: </h2>
+            <div className="custom-input-container">
+                <input placeholder="Filtruj po nazwie" className="custom-input" value={filter} onChange={(e) => { setFilter(e.target.value) }} />
+            </div>
+
+            <table className="table">
+                <thead>
+                    <tr className='tab-row-header'>
+                        <th >Nazwa</th>
+                        <th >Opis</th>
+                        <th >Jednostka</th>
+                        <th >Ilość</th>
+                        <th ></th>
+                        <th ></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {filteredOrderSemiProducts.map(semiProduct => (
+                        <tr key={semiProduct.id} className='tab-row-body-warehouse'
+                            style={{ backgroundColor: semiProduct.semiProduct.quantity <= 0 ? '#fc8b8b' : '#90fc90' }}>
+                            <td className="tab-tuple-td">{semiProduct.semiProduct.name}</td>
+                            <td className="tab-tuple-td">{semiProduct.semiProduct.descr}</td>
+                            <td className="tab-tuple-td">{semiProduct.semiProduct.unit}</td>
+                            <td className="tab-tuple-td">
+                                <input type="number" step="0.1" value={semiProduct.quantity} onChange={(e) => { upadteQuantity(semiProduct.id, e.target.value) }} className="warehouse-input" placeholder="0.0" />
+                            </td>
+                            <td><div className="save-button" onClick={() => { handleUpdateQuantity(semiProduct.id, semiProduct.quantity) }}>✔</div></td>
+                            <td><div className="delete-button-warehouse" onClick={() => { handleDeleteSemiProduct(semiProduct.id) }}>X</div></td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
 
             <hr className="line" />
 

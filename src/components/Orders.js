@@ -4,7 +4,6 @@ import DatePicker from 'react-datepicker';
 import Select from "react-select";
 import { formatDateToStr } from "../services/DataConverter";
 
-//npm install date-fns
 // Potrzebny do ustawienia polskiego w DataPicker (Nie działa)
 import pl from 'date-fns/locale/pl'; // Importuj lokalizację dla polskiego języka
 

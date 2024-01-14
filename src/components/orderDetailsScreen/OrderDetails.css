@@ -1,39 +1,51 @@
 .custom-file-input {
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .custom-select-button {
-    display: inline-block;
-    padding: 8px 16px;
-    background-color: #3498db;
-    color: #fff;
-    cursor: pointer;
-    border-radius: 4px;
-  }
-  
-  /* Dodatkowe stylizacje, np. po najechaniu myszką */
-  .custom-select-button:hover {
-    background-color: #2980b9;
-  }
+  position: relative;
+  overflow: hidden;
+}
 
-  .dropzone-container{
-    display: flex;
-    flex-direction: column;
-    font-family: sans-serif;
-  }
-  .dropzone{
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    border-width: 2px;
-    border-radius: 2px;
-    border-color: #eeeeee;
-    border-style: dashed;
-    background-color: #fafafa;
-    color: #bdbdbd;
-    outline: none;
-    transition: border .24s ease-in-out;
-  }
+.custom-select-button {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #3498db;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.custom-select-button:hover {
+  background-color: #2980b9;
+}
+
+.dropzone-container {
+  display: flex;
+  flex-direction: column;
+  font-family: sans-serif;
+}
+
+.dropzone {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  border-width: 2px;
+  border-radius: 2px;
+  border-color: #eeeeee;
+  border-style: dashed;
+  background-color: #fafafa;
+  color: #bdbdbd;
+  outline: none;
+  transition: border .24s ease-in-out;
+}
+
+.small-input {
+  width: 90px;
+  margin-left: 20px;
+  margin-right: 20px;
+  height: 25px;
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+  font-size: 15px;
+}

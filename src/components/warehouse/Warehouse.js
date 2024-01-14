@@ -108,7 +108,8 @@ export default function Warehouse() {
                     </thead>
                     <tbody>
                         {filteredSemiProducts.map(semiProduct => (
-                            <tr key={semiProduct.id} className='tab-row-body-warehouse' >
+                            <tr key={semiProduct.id} className='tab-row-body-warehouse'
+                                style={{ backgroundColor: semiProduct.quantity <= 0 ? '#fc8b8b' : '#ddd' }}>
                                 <td className="tab-tuple-td">{semiProduct.name}</td>
                                 <td className="tab-tuple-td">{semiProduct.descr}</td>
                                 <td className="tab-tuple-td">{semiProduct.unit}</td>

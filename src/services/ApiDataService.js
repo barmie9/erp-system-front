@@ -158,6 +158,26 @@ class ApiDataService {
             { headers: AuthenticationHeader() });
     }
 
+    addOrderSemiProduct(orderId, semiProductId, quantity) {
+        return axios.post(apiUrl + 'api/add-order-semi-product', { orderId, semiProductId, quantity },
+            { headers: AuthenticationHeader() });
+    }
+
+    getOrderSemiProducts(orderId) {
+        return axios.post(apiUrl + 'api/get-order-semi-products', { orderId },
+            { headers: AuthenticationHeader() });
+    }
+
+    updateOrderSemiProductQuantity(id, quantity) {
+        return axios.post(apiUrl + 'api/update-order-semi-product-quantity', { id, quantity },
+            { headers: AuthenticationHeader() });
+    }
+
+    deleteOrderSemiProduct(id) {
+        return axios.post(apiUrl + 'api/delete-order-semi-product', { id },
+            { headers: AuthenticationHeader() });
+    }
+
     async downloadFile(fileId, fileName) {
         const response = await axios.get(apiUrl + `api/get-file/${fileId}`, {
             responseType: 'blob', // Ustawienie responseType na 'blob' dla plików binarnych
