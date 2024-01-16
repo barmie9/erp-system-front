@@ -22,16 +22,21 @@ function Login() {
         event.preventDefault(); // Zatrzymania domyślnego zachowania przeglądarki. W kontekście formularza, domyślne zachowanie polega na przesłaniu danych formularza i przeładowaniu strony.
 
         //Logowanie w aplikacji back-endowej
-        const data = await AuthenticationService.login(email, password);
+        try {
+            const response = await AuthenticationService.login(email, password);
 
-        // todo Do napisania weryfikacja danych
-        console.log("LOGIN DATA: ", data);
+            setEmail('');
+            setPassword('');
 
-        setEmail('');
-        setPassword('');
+            navigate('/')
+            window.location.reload(); // Przeładowanie strony w celu załadowania nowych danych z pamięci przeglądarki (token/role)
+        }
+        catch (error) {
+            alert("Błędny login lub hasło");
+        }
 
-        navigate('/')
-        window.location.reload(); // Przeładowanie strony w celu załadowania nowych danych z pamięci przeglądarki (token/role)
+
+
     }
 
     return (

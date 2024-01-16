@@ -1,17 +1,16 @@
 
-function AuthenticationHeader(){
+function AuthenticationHeader() {
 
     const token = JSON.parse(localStorage.getItem('token'));
 
-    if(token ){
-        
-        const authBearer = {Authorization: 'Bearer ' + token};
-        // console.log("TOKEN EXISTS", authBearer.Authorization);
+    if (token) {
+
+        const authBearer = { Authorization: 'Bearer ' + token };
         return authBearer;
     }
-    else{
+    else {
         console.log("TOKEN NOT EXISTS");
-        return {}; //Do przemyslenia
+        return {};
     }
 }
 

@@ -87,7 +87,9 @@ export default function Devices() {
                                 <td className="tab-tuple-td">{device.name}</td>
                                 <td className="tab-tuple-td">{device.descr}</td>
                                 <td className="tab-tuple-td">{device.personNum}</td>
-                                <td><div className="delete-button-devices" onClick={() => { handleDeleteDevice(device.id) }}>X</div></td>
+                                <td><div className="delete-button-devices" onClick={() => {
+                                    handleDeleteDevice(device.id)
+                                }}>X</div></td>
                             </tr>
                         ))}
                     </tbody>

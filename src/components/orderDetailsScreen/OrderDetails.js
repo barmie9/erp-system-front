@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import DatePicker from 'react-datepicker';
 import { Gantt } from 'gantt-task-react';
+import "gantt-task-react/dist/index.css";
 import Select from "react-select";
 import ApiDataService from "../../services/ApiDataService";
 import { formatDate, formatDateToStr } from '../../services/DataConverter';
@@ -187,18 +188,15 @@ function OrderDetails() {
     }
 
     const handleAddTask = async () => {
-
-
         if (checkFields([newTaskName, newTaskDescr, newTaskDateStart, newTaskDateEnd, employeeId, deviceId])) {
             const response = await ApiDataService.addTask(newTaskName, newTaskDescr, formatDateToStr(newTaskDateStart),
                 formatDateToStr(newTaskDateEnd), employeeId, state.id, deviceId);
 
-            if (response.data == "OK") {
-                if (acceptedFiles.length > 0) { // Jeśli użytkownik wybrał jakieś pliki
-                    const fileResponse = await ApiDataService.addTaskFiles(acceptedFiles, response.data);
+            if (response.data.id != null) {
+                if (acceptedFiles.length > 0) {
+                    const fileResponse = await ApiDataService.addTaskFiles(acceptedFiles, response.data.id);
                 }
 
-                // Czyszczenie inputów:
                 setNewTaskName("");
                 setNewTaskDescr("");
                 setNewTaskDateStart(null);
@@ -210,30 +208,25 @@ function OrderDetails() {
 
                 setAcceptedFiles([]);
 
-                // Odświeżenie wykresu Gantta (Ponowne pobranie z serwera)
                 setRefreashGantt(!refreshGantt);
             }
             else {
-                alert("KONFLIKT: " + response.data);
+                alert("KONFLIKT: urządzenie zajęte");
             }
-
         }
-
     }
 
     const handleEditOrder = async () => {
-
         if (checkFields([editOrderName, editOrderQuantity, companyId, editOrderDate])) {
-            const response = await ApiDataService.editOrder(order.id, editOrderName, editOrderQuantity, companyId, formatDateToStr(editOrderDate));
+            const response = await ApiDataService.editOrder(
+                order.id, editOrderName, editOrderQuantity, companyId, formatDateToStr(editOrderDate));
 
-            // Czyszczenie inputów 
             setEditOrderName("");
             setEditOrderQuantity("");
             setCompanyId(null);
             setCompanyStr("");
             setEditOrderDate(null);
 
-            // Odświeżenie komponentów korzystającyhc ze zlecenia
             setRefreshEditOrder(!refreshEditOrder);
         }
     }
@@ -355,11 +348,12 @@ function OrderDetails() {
 
             <h1>Wykres Gantta Zlecenia: </h1>
 
-            {/* Wykres Gantta - Wyświetlany tylko wtedy gdy tablica z zadaniami nie jest pusta i dane zostały pobrane z serwera*/}
-            <div className="scroll-view">
+            <div id="gantt-scroll-view" className="scroll-view">
                 {isTasksLoaded ?
-                    (tasks.length ? <Gantt tasks={tasks} locale="pl" onClick={(task) => { navigate("/orders/details/userTask", { state: { taskId: task.id } }) }} /> : <h2>Brak zadań w zleceniu.</h2>) :
-                    <p>Loading...</p>}
+                    (tasks.length ? <Gantt tasks={tasks} locale="pl" onClick={(task) => {
+                        navigate("/orders/details/userTask", { state: { taskId: task.id } })
+                    }} /> : <h2>Brak zadań w zleceniu.</h2>) :
+                    <p>Ładowanie wykresu...</p>}
             </div>
 
             <hr className="line" />
@@ -499,17 +493,26 @@ function OrderDetails() {
                             <td className="tab-tuple-td">{semiProduct.semiProduct.descr}</td>
                             <td className="tab-tuple-td">{semiProduct.semiProduct.unit}</td>
                             <td className="tab-tuple-td">
-                                <input type="number" step="0.1" value={semiProduct.quantity} onChange={(e) => { upadteQuantity(semiProduct.id, e.target.value) }} className="warehouse-input" placeholder="0.0" />
+                                <input type="number" step="0.1" value={semiProduct.quantity}
+                                    onChange={(e) => { upadteQuantity(semiProduct.id, e.target.value) }}
+                                    className="warehouse-input" placeholder="0.0" />
                             </td>
-                            <td><div className="save-button" onClick={() => { handleUpdateQuantity(semiProduct.id, semiProduct.quantity) }}>✔</div></td>
-                            <td><div className="delete-button-warehouse" onClick={() => { handleDeleteSemiProduct(semiProduct.id) }}>X</div></td>
+                            <td>
+                                <div className="save-button" onClick={() => {
+                                    handleUpdateQuantity(semiProduct.id, semiProduct.quantity)
+                                }}>✔</div>
+                            </td>
+                            <td>
+                                <div className="delete-button-warehouse" onClick={() => {
+                                    handleDeleteSemiProduct(semiProduct.id)
+                                }}>X</div>
+                            </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
 
             <hr className="line" />
-
         </div>
     )
 }

@@ -51,6 +51,7 @@
 .task-progress-container{
     display: flex;
     flex-direction: column;
+    margin-right: 15px;
     width: 250px;
 }
 

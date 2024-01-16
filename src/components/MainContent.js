@@ -3,7 +3,6 @@ import Login from "./Login";
 import { Route, Routes } from 'react-router-dom';
 import Home from './home/Home';
 import Register from "./Register";
-import Test from "./Test";
 import Users from "./Users";
 import Orders from "./Orders";
 import OrderDetails from "./orderDetailsScreen/OrderDetails";
@@ -34,7 +33,6 @@ function AdminContent() {
             <Route path="/magazin" Component={Warehouse} />
             <Route path="/devices" Component={Devices} />
             <Route path="/users" Component={Users} />
-            <Route path="/test" Component={Test} />
             <Route path="/orders/details" Component={OrderDetails} />
             <Route path="/orders/details/userTask" Component={AdminTask} />
         </Routes>
@@ -47,7 +45,6 @@ function UserContent() {
             <Route path="/" Component={Home} />
             <Route path="/tasks" Component={UserTasks} />
             <Route path="/tasks/task" Component={UserTask} />
-            <Route path="/test" Component={Test} />
         </Routes>
     )
 }
@@ -57,7 +54,6 @@ function NoUserContent() {
         <Routes>
             <Route path="/" Component={Home} />
             <Route path="/login" Component={Login} />
-            <Route path="/test" Component={Test} />
             <Route path="register" Component={Register} />
         </Routes>
     )

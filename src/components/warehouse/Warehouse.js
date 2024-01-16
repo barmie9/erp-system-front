@@ -30,6 +30,7 @@ export default function Warehouse() {
 
         setRefreshTab(!refreshTab);
     }
+
     const handleUpdateQuantity = async (semiProductId) => {
         const foundProduct = semiProducts.find(item => item.id === semiProductId);
 
@@ -39,7 +40,6 @@ export default function Warehouse() {
             if (response.data == "OK") alert(foundProduct.name + " - Ilość : " + foundProduct.quantity);
             setRefreshTab(!refreshTab);
         }
-
     }
 
     const upadteQuantity = (id, newValue) => {
@@ -52,7 +52,6 @@ export default function Warehouse() {
     }
 
     const handleAddSemiProduct = async () => {
-
         if (checkFields([name, descr, unit, quantity])) {
             const response = await ApiDataService.addSemiProduct(name, descr, unit, quantity);
 
@@ -60,10 +59,11 @@ export default function Warehouse() {
             setDescr("");
             setUnit("");
             setQuantity(0.0);
-
-            setRefreshTab(!refreshTab);
+            if (response.data != "OK")
+                alert("Nie można dodać produktu. Błąd:" + response.data);
+            else
+                setRefreshTab(!refreshTab);
         }
-
     }
 
     const filteredSemiProducts = semiProducts.filter((product) =>
@@ -114,10 +114,18 @@ export default function Warehouse() {
                                 <td className="tab-tuple-td">{semiProduct.descr}</td>
                                 <td className="tab-tuple-td">{semiProduct.unit}</td>
                                 <td className="tab-tuple-td">
-                                    <input type="number" step="0.1" value={semiProduct.quantity} onChange={(e) => { upadteQuantity(semiProduct.id, e.target.value) }} className="warehouse-input" placeholder="0.0" />
+                                    <input type="number" step="0.1" value={semiProduct.quantity} onChange={(e) => {
+                                        upadteQuantity(semiProduct.id, e.target.value)
+                                    }} className="warehouse-input" placeholder="0.0" />
                                 </td>
-                                <td><div className="save-button" onClick={() => { handleUpdateQuantity(semiProduct.id) }}>✔</div></td>
-                                <td><div className="delete-button-warehouse" onClick={() => { handleDeleteSemiProduct(semiProduct.id) }}>X</div></td>
+                                <td>
+                                    <div className="save-button" onClick={() => { handleUpdateQuantity(semiProduct.id) }}>✔</div>
+                                </td>
+                                <td>
+                                    <div className="delete-button-warehouse" onClick={() => {
+                                        handleDeleteSemiProduct(semiProduct.id)
+                                    }}>X</div>
+                                </td>
                             </tr>
                         ))}
                     </tbody>

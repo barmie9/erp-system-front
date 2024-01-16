@@ -35,6 +35,11 @@ class ApiDataService {
         }
     }
 
+    updateUserRole(userId, role) {
+        return axios.post(apiUrl + 'api/update-role', { userId, role },
+            { headers: AuthenticationHeader() });
+    }
+
     getCompanyOrder() {
         return axios.get(apiUrl + 'api/company-orders', { headers: AuthenticationHeader() });
     }
@@ -101,7 +106,7 @@ class ApiDataService {
             { headers: AuthenticationHeader() });
     }
 
-    updateProgresTask(taskId, progress) {
+    updateProgressTask(taskId, progress) {
         return axios.post(apiUrl + 'api/update-task-progress', { taskId, progress },
             { headers: AuthenticationHeader() });
     }

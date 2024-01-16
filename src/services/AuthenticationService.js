@@ -2,56 +2,54 @@ import axios from 'axios';
 
 const apiUrl = 'http://localhost:8080/';
 
-class AuthenticationService{
+class AuthenticationService {
 
-    login(username,password){
+    login(username, password) {
         const loginPayload = {
             email: username,
             password: password
-          }
+        }
 
-        return axios.post(apiUrl + 'api/auth/login',loginPayload)
-        .then(response => {
-            if(response.data && response.data.token){
-                const  token = JSON.stringify(response.data.token);
-                const role = JSON.stringify(response.data.role);
-                const userId = JSON.stringify(response.data.userId);
+        return axios.post(apiUrl + 'api/auth/login', loginPayload)
+            .then(response => {
+                if (response.data && response.data.token) {
+                    const token = JSON.stringify(response.data.token);
+                    const role = JSON.stringify(response.data.role);
+                    const userId = JSON.stringify(response.data.userId);
 
-                console.log("TOKEN/ROLE/userId: ", token + '/' + role + '/' + userId);
-
-                localStorage.setItem('token',token);
-                localStorage.setItem('role',role);
-                localStorage.setItem('userId',userId);
-            }
-        })
-        .catch(err => console.log(err));
+                    localStorage.setItem('token', token);
+                    localStorage.setItem('role', role);
+                    localStorage.setItem('userId', userId);
+                }
+            })
+            // .catch(err => console.log(err));
     }
 
-    logout(){
+    logout() {
         localStorage.removeItem('token');
         localStorage.removeItem('userId');
-        localStorage.setItem("role",null);
+        localStorage.setItem("role", null);
 
         window.location.reload();
     }
 
-    register(name,surname,email,password,phoneNum,pesel,dateOfBirthday,specId){
-        return axios.post(apiUrl + 'api/auth/register',{
-            name,surname,email,password,phoneNum,pesel,dateOfBirthday,specId
+    register(name, surname, email, password, phoneNum, pesel, dateOfBirthday, specId) {
+        return axios.post(apiUrl + 'api/auth/register', {
+            name, surname, email, password, phoneNum, pesel, dateOfBirthday, specId
         })
-        .then(response => {
-            if(response.data.token && response.data.role){
-                const  token = JSON.stringify(response.data.token);
-                const role = JSON.stringify(response.data.role);
+            .then(response => {
+                if (response.data.token && response.data.role) {
+                    const token = JSON.stringify(response.data.token);
+                    const role = JSON.stringify(response.data.role);
 
-                localStorage.setItem('token',token);
-                localStorage.setItem('role',role);
-            }
-            return response.data;
-        });
+                    localStorage.setItem('token', token);
+                    localStorage.setItem('role', role);
+                }
+                return response.data;
+            });
     }
 
-    getCurrentToken(){
+    getCurrentToken() {
         return JSON.parse(localStorage.getItem('token'));
     }
 }

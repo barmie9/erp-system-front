@@ -22,7 +22,6 @@ function UserMenu() {
         <nav>
             <div className='sidebarrow'><Link to="/">Strona Główna</Link></div>
             <div className='sidebarrow'><Link to="/tasks">Zadania</Link></div>
-            <div className='sidebarrow'><Link to="/test">Test</Link></div>
         </nav>
     )
 }
@@ -36,7 +35,6 @@ function AdminMenu() {
             <div className='sidebarrow'><Link to="/magazin">Stan Magazynowy</Link></div>
             <div className='sidebarrow'><Link to="/devices">Urządzenia</Link></div>
             <div className='sidebarrow'><Link to="/users">Pracownicy</Link></div>
-            <div className='sidebarrow'><Link to="/test">Test</Link></div>
         </nav>
     )
 }
@@ -45,7 +43,6 @@ function NoUserMenu() {
     return (
         <nav>
             <div className='sidebarrow'><Link to="/">Strona Główna</Link></div>
-            <div className='sidebarrow'><Link to="/test">Test</Link></div>
         </nav>
     )
 }

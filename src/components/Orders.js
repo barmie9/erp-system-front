@@ -43,14 +43,15 @@ function Orders() {
     );
 
     return (
-        <div className="content">
+        <div id="oreders-content" className="content">
             <h1>Zlecenia</h1>
             <h2>Dodaj zlecenie:</h2>
             <AddOrder refreshParent={handleRefresh} />
 
             <h2>Lista zleceń:</h2>
             <div className="custom-input-container">
-                <input placeholder="Filtruj po nazwie" className="custom-input" value={filter} onChange={(e) => { setFilter(e.target.value) }} />
+                <input placeholder="Filtruj po nazwie" className="custom-input" value={filter}
+                    onChange={(e) => { setFilter(e.target.value) }} />
             </div>
             <table className="table">
                 <thead>

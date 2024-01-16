@@ -4,10 +4,11 @@ import ApiDataService from "../services/ApiDataService";
 function Users() {
     const [usersList, setUsersList] = useState([]);
     const [filter, setFilter] = useState("");
+    const [refreshUsers, setRefreshUsers] = useState(false);
 
     useEffect(() => {
         getUsers();
-    }, []);
+    }, [refreshUsers]);
 
     const getUsers = async () => {
         const response = await ApiDataService.getUsers();
@@ -21,6 +22,17 @@ function Users() {
     const filteredUsers = usersList.filter((user) =>
         user.surname.toLowerCase().includes(filter.toLowerCase())
     );
+
+    const handleUpdateRole = async (userId, newRole) => {
+        const response = await ApiDataService.updateUserRole(userId, newRole);
+
+        if (response.data == "OK") {
+            setRefreshUsers(!refreshUsers);
+        }
+        else {
+            alert("Nie udało się zedytować roli: ", response.data);
+        }
+    }
 
     return (
         <div className="content">
@@ -41,6 +53,7 @@ function Users() {
                         <th >Numer PESEL</th>
                         <th >Stanowisko</th>
                         <th >Data urodzenia</th>
+                        <th>Admin</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -53,6 +66,10 @@ function Users() {
                             <td className="tab-tuple-td">{user.pesel}</td>
                             <td className="tab-tuple-td">{user.specialization}</td>
                             <td className="tab-tuple-td">{user.dob}</td>
+                            <td className="tab-tuple-td">
+                                <input type="checkbox" checked={user.role == "ADMIN" ? true : false} 
+                                onChange={() => {handleUpdateRole(user.id, user.role == "ADMIN" ? "USER" : "ADMIN")} }/>
+                            </td>
                         </tr>
                     ))}
                 </tbody>

@@ -37,7 +37,6 @@ function Home() {
                     </ul>
                 </section>
             </header>
-
         </div>
     )
 }

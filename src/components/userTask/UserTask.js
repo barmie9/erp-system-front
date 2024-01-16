@@ -27,14 +27,12 @@ export default function UserTask() {
         setFileList(response.data);
     }
 
-    const handleSaveProgress = () => {
-        console.log("SAVE PROGRESS: ", percentageProg);
-        const response = ApiDataService.updateProgresTask(state.taskId, percentageProg);
+    const handleSaveProgress = async () => {
+        const response = await ApiDataService.updateProgressTask(state.taskId, percentageProg);
 
-        // Pokazuj komunikat
-        setShowMessage(true);
+        if (response.data != null)
+            setShowMessage(true);
 
-        // Ukryj komunikat po 1000 milisekundach 
         setTimeout(() => {
             setShowMessage(false);
         }, 1000);
@@ -66,7 +64,7 @@ export default function UserTask() {
                 <div id="task-dates" className="task-dates-container">
                     <h2>Data rozpoczęcia: {task.start}</h2>
                     <h2>Data zakończenia: {task.end}</h2>
-                    <h2>Maszyna/Urządzenie: {task.device}</h2>
+                    <h2>Urządzenie: {task.device}</h2>
 
                 </div>
 
