@@ -35,6 +35,7 @@ function AdminMenu() {
             <div className='sidebarrow'><Link to="/magazin">Stan Magazynowy</Link></div>
             <div className='sidebarrow'><Link to="/devices">Urządzenia</Link></div>
             <div className='sidebarrow'><Link to="/users">Pracownicy</Link></div>
+            <div className='sidebarrow'><Link to="/specialization">Specjalizacje</Link></div>
         </nav>
     )
 }

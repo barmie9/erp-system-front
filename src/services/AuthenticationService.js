@@ -22,7 +22,7 @@ class AuthenticationService {
                     localStorage.setItem('userId', userId);
                 }
             })
-            // .catch(err => console.log(err));
+
     }
 
     logout() {
@@ -41,9 +41,11 @@ class AuthenticationService {
                 if (response.data.token && response.data.role) {
                     const token = JSON.stringify(response.data.token);
                     const role = JSON.stringify(response.data.role);
+                    const userId = JSON.stringify(response.data.userId);
 
                     localStorage.setItem('token', token);
                     localStorage.setItem('role', role);
+                    localStorage.setItem('userId', userId);
                 }
                 return response.data;
             });

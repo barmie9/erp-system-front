@@ -21,6 +21,8 @@ export default function AdminTask() {
     const [name, setName] = useState('');
     const [device, setDevice] = useState('');
 
+    const [refreshComponents, setRefreshComponents] = useState(false);
+
     // Do usuwania plików
     const [deleteFileIdList, setDeleteFileIdList] = useState([]);
 
@@ -36,7 +38,7 @@ export default function AdminTask() {
     useEffect(() => {
         fetchTask();
         fetchTaskFileList();
-    }, []);
+    }, [refreshComponents]);
 
     const fetchTask = async () => {
         const response = await ApiDataService.getTaskById(state.taskId);
@@ -56,7 +58,6 @@ export default function AdminTask() {
     }
 
     const handleEditTask = async () => {
-        console.log("EDIT TASK: ");
 
         if (checkFields([percentageProg, name, descr, dateStart, dateEnd])) {
             // Pokazuj komunikat
@@ -74,6 +75,9 @@ export default function AdminTask() {
             if (acceptedFiles.length > 0) { // Jeśli użytkownik wybrał jakieś pliki
                 const fileResponse = await ApiDataService.addTaskFiles(acceptedFiles, state.taskId);
             }
+
+            setRefreshComponents(!refreshComponents);
+            setAcceptedFiles([]);
 
             // Ukryj komunikat po 1000 milisekundach 
             setTimeout(() => {
@@ -181,7 +185,7 @@ export default function AdminTask() {
             </div>
 
             <button style={{ alignSelf: "flex-end" }} className="button" onClick={handleEditTask}>Zapisz Zmiany</button>
-            {showMessage && <div className="message-container">Progres zaaktualizowany</div>}
+            {showMessage && <div className="message-container">Zmiany zaaktualizowane</div>}
         </div>
     )
 }

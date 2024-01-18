@@ -12,6 +12,8 @@ import AdminTask from "./adminTask/AdminTask";
 import Companies from "./companies/Companies";
 import Warehouse from "./warehouse/Warehouse";
 import Devices from "./devices/Devices";
+import UserProfile from "./userProfile/UserProfile";
+import Specialization from "./Specialization";
 
 function MainContent(props) {
 
@@ -35,6 +37,8 @@ function AdminContent() {
             <Route path="/users" Component={Users} />
             <Route path="/orders/details" Component={OrderDetails} />
             <Route path="/orders/details/userTask" Component={AdminTask} />
+            <Route path="/profile" Component={UserProfile} />
+            <Route path="/specialization" Component={Specialization} />
         </Routes>
     )
 }
@@ -45,6 +49,7 @@ function UserContent() {
             <Route path="/" Component={Home} />
             <Route path="/tasks" Component={UserTasks} />
             <Route path="/tasks/task" Component={UserTask} />
+            <Route path="/profile" Component={UserProfile} />
         </Routes>
     )
 }

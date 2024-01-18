@@ -25,6 +25,16 @@ class ApiDataService {
         }
     }
 
+    deleteSpecialization(id) {
+        return axios.post(apiUrl + 'api/delete-specialization', { id },
+            { headers: AuthenticationHeader() });
+    }
+
+    addSpecialization(name) {
+        return axios.post(apiUrl + 'api/add-specialization', { name },
+            { headers: AuthenticationHeader() });
+    }
+
     getUsers() {
         try {
             return axios.get(apiUrl + 'api/users', { headers: AuthenticationHeader() });
@@ -33,6 +43,11 @@ class ApiDataService {
             console.log(errorMessage + "Błąd pobierania użytkowników: " + error);
             console.error(errorMessage + "Błąd pobierania użytkowników: " + error);
         }
+    }
+
+    getUserById(id) {
+        return axios.post(apiUrl + 'api/user', { id },
+            { headers: AuthenticationHeader() });
     }
 
     updateUserRole(userId, role) {
