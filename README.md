@@ -1,11 +1,37 @@
-# Getting Started with Create React App
+# System ERP wspomagający zarządzanie produkcją dla przedsiębiorstwa z sektora MŚP
 
-## Użyte biblioteki:
-## `axios` - Biblioteka ułatwijąca łączność z api aplikacji back-endowej. 
-Zalety:
-- Wbudowana obsługa błędów
-- Wbudowana obsługa plików Json.
-- `axios` używa Promises do obsługi asynchroniczności, co ułatwia korzystanie z mechanizmów takich jak `then()` i `catch()`.
+## Opis:
+W dzisiejszych czasach przedsiębiorstwa produkcyjne coraz częściej muszą mierzyć się z konkurencją innych firm z branży. Ze względu na globalizację i rozwój technologiczny, konieczność rywalizacji z przedsiębiorstwami zagranicznymi staje się coraz bardziej powszechna. Również na naszym rynku jak pokazuje raport Głównego Urzędu statystycznego liczba przedsiębiorstw niefinansowych w Polsce w latach 2010 do 2021 zwiększyła się o około 36,4%. Aby nie zostać w tyle, przedsiębiorcy wymyślają różne sposoby na poprawę wydajności i zmniejszenie kosztów produkcji.
+
+Jednym z efektywnych rozwiązań są systemy wspomagające zarządzanie produkcją, które pomagają w planowaniu i monitorowaniu procesów produkcyjnych. Niemniej jednak, wprowadzenie takiego systemu często napotyka na liczne trudności. Jednym z problemów jest potrzeba indywidualnego wprowadzania takiego systemu dla każdej z firmy. Skutkiem tego jest często wysoka cena, jaką trzeba przeznaczyć na tę inwestycję. Inna trudność, jaka się pojawia to czas potrzebny na wprowadzenie takiego rozwiązania. Im większy i bardziej skomplikowany system, tym więcej czasu straci przedsiębiorstwo.
+
+Aby rozwiązać, chociaż część z tych problemów powstała ta praca, której celem jest opracowanie projektu aplikacji wspomagającej zarządzanie produkcją w mniejszych i średnich przedsiębiorstwach. Z założenia aplikacja ma być uniwersalna, prosta i intuicyjna w obsłudze. Powinno to w znacznym stopniu przyspieszyć wdrażanie do firmy nowego systemu. Dane rozwiązanie będzie także darmowe i w języku polskim, co dla wielu też będzie dużym atutem. System będzie wykonany w formie aplikacji webowej, co pozwoli zwiększyć liczbę urządzeń, które będą mogły z niego korzystać. Głównym zadaniem aplikacji będzie zarządzanie oraz monitorowanie zleceń produkcyjnych. Osoba odpowiedzialna za konkretne zlecenie w przedsiębiorstwie będzie mogła przydzielać wybrane zadania pracownikom. Kierownik i pracownicy będą posiadali różne interfejsy, pozwalające wykonywać im różne czynności, odpowiednie do stanowiska, jakie pełnią. Wszystkie istotne informacje potrzebne do działania aplikacji będą przechowywane na serwerze w bazie danych.
+
+## Typ aplikacji:
+- front-end
+
+## Zastosowane technologie:
+- JavaScript
+- ReactJs
+- axios
+
+## Jak uruchomić:
+- Uruchom aplikacje back-end: https://github.com/barmie9/erp-system-back-end
+- Zaaktualizuj url do back-endu w `ApiDataService.js`, jeśli to konieczne:
+```JavaScript
+const apiUrl = 'http://localhost:8080/';
+```
+- Uruchom aplikacje komendą: `npm start`
+
+## Uwagi:
+- Do uruchomienia niezbędna jest aplikacja back-end: 
+https://github.com/barmie9/erp-system-back-end
+- Do uruchomienia strony internetowej można użyć: `http://localhost:3000`
+
+
+<hr style="border: 3px solid gray;"/>
+
+## Domyślny opis jak uruchomić z Reacta:
 
 
 ## Available Scripts
